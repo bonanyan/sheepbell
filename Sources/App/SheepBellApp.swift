@@ -1,20 +1,20 @@
 import SwiftUI
 
 @main
-struct HerdrBellApp: App {
+struct SheepBellApp: App {
     @State private var store: HerdrStore
 
     init() {
         let store = HerdrStore()
         _store = State(initialValue: store)
         store.start()
-        if CommandLine.arguments.contains("--herdrbell-test-notification") {
+        if CommandLine.arguments.contains("--sheepbell-test-notification") {
             Task {
                 try? await Task.sleep(for: .seconds(2))
                 Notifier().postStatusChange(
                     sessionName: "default",
                     agentName: "opencode",
-                    title: "Test notification from HerdrBell",
+                    title: "Test notification from SheepBell",
                     status: .blocked
                 )
             }
@@ -22,7 +22,7 @@ struct HerdrBellApp: App {
     }
 
     var body: some Scene {
-        MenuBarExtra("HerdrBell", systemImage: store.aggregateSymbol) {
+        MenuBarExtra("SheepBell", systemImage: store.aggregateSymbol) {
             MenuView()
         }
         .menuBarExtraStyle(.window)

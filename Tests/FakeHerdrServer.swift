@@ -1,6 +1,6 @@
 import Foundation
 
-@testable import HerdrBell
+@testable import SheepBell
 
 final class FakeHerdrServer: @unchecked Sendable {
     let path: String

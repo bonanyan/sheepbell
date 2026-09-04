@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "946663247D5DD7C80EBC9364"
-               BuildableName = "HerdrBell.app"
-               BlueprintName = "HerdrBell"
-               ReferencedContainer = "container:HerdrBell.xcodeproj">
+               BlueprintIdentifier = "05FFC8F082E21FECCAC95A62"
+               BuildableName = "SheepBell.app"
+               BlueprintName = "SheepBell"
+               ReferencedContainer = "container:SheepBell.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "946663247D5DD7C80EBC9364"
-            BuildableName = "HerdrBell.app"
-            BlueprintName = "HerdrBell"
-            ReferencedContainer = "container:HerdrBell.xcodeproj">
+            BlueprintIdentifier = "05FFC8F082E21FECCAC95A62"
+            BuildableName = "SheepBell.app"
+            BlueprintName = "SheepBell"
+            ReferencedContainer = "container:SheepBell.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -44,10 +44,10 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5DABD8B87763FBAE4B5B6669"
-               BuildableName = "HerdrBellTests.xctest"
-               BlueprintName = "HerdrBellTests"
-               ReferencedContainer = "container:HerdrBell.xcodeproj">
+               BlueprintIdentifier = "1F3AA81DB5D1CAFCD6731517"
+               BuildableName = "SheepBellTests.xctest"
+               BlueprintName = "SheepBellTests"
+               ReferencedContainer = "container:SheepBell.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -68,10 +68,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "946663247D5DD7C80EBC9364"
-            BuildableName = "HerdrBell.app"
-            BlueprintName = "HerdrBell"
-            ReferencedContainer = "container:HerdrBell.xcodeproj">
+            BlueprintIdentifier = "05FFC8F082E21FECCAC95A62"
+            BuildableName = "SheepBell.app"
+            BlueprintName = "SheepBell"
+            ReferencedContainer = "container:SheepBell.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -87,10 +87,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "946663247D5DD7C80EBC9364"
-            BuildableName = "HerdrBell.app"
-            BlueprintName = "HerdrBell"
-            ReferencedContainer = "container:HerdrBell.xcodeproj">
+            BlueprintIdentifier = "05FFC8F082E21FECCAC95A62"
+            BuildableName = "SheepBell.app"
+            BlueprintName = "SheepBell"
+            ReferencedContainer = "container:SheepBell.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

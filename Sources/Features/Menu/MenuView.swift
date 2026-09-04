@@ -29,7 +29,7 @@ struct MenuView: View {
             Button {
                 NSApplication.shared.terminate(nil)
             } label: {
-                Label("Quit HerdrBell", systemImage: "power")
+                Label("Quit SheepBell", systemImage: "power")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
                     .padding(.horizontal, 8)

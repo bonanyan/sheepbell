@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import HerdrBell
+@testable import SheepBell
 
 private func liveSocket() throws -> HerdrSocket {
     let path = ("~/.config/herdr/herdr.sock" as NSString).expandingTildeInPath

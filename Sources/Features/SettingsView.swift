@@ -7,7 +7,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Toggle("Notify when an agent becomes blocked or done", isOn: $notificationsEnabled)
-            Toggle("Launch HerdrBell at login", isOn: Binding(
+            Toggle("Launch SheepBell at login", isOn: Binding(
                 get: { launchAtLogin },
                 set: { newValue in
                     if LoginItem.setEnabled(newValue) {

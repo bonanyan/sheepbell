@@ -1,6 +1,6 @@
-name: HerdrBell
+name: SheepBell
 options:
-  bundleIdPrefix: dev.herdr
+  bundleIdPrefix: dev.sheepbell
   deploymentTarget:
     macOS: "15.0"
 settings:
@@ -8,7 +8,7 @@ settings:
     SWIFT_VERSION: "6.0"
     SWIFT_STRICT_CONCURRENCY: complete
 targets:
-  HerdrBell:
+  SheepBell:
     type: application
     platform: macOS
     sources:
@@ -24,30 +24,30 @@ targets:
         NSHumanReadableCopyright: ""
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.herdr.HerdrBell
+        PRODUCT_BUNDLE_IDENTIFIER: dev.sheepbell.SheepBell
         MARKETING_VERSION: "0.1.0"
         CURRENT_PROJECT_VERSION: "1"
         ENABLE_HARDENED_RUNTIME: YES
         CODE_SIGN_STYLE: Automatic
-  HerdrBellTests:
+  SheepBellTests:
     type: bundle.unit-test
     platform: macOS
     sources:
       - Tests
     dependencies:
-      - target: HerdrBell
+      - target: SheepBell
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
-        PRODUCT_BUNDLE_IDENTIFIER: dev.herdr.HerdrBellTests
+        PRODUCT_BUNDLE_IDENTIFIER: dev.sheepbell.SheepBellTests
 schemes:
-  HerdrBell:
+  SheepBell:
     build:
       targets:
-        HerdrBell: all
+        SheepBell: all
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - HerdrBellTests
+        - SheepBellTests

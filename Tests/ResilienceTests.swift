@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import HerdrBell
+@testable import SheepBell
 
 @Test func notificationPolicyOnlyBlockedAndDoneTransitions() {
     #expect(NotificationPolicy.shouldNotify(from: .working, to: .blocked))
@@ -15,7 +15,7 @@ import Testing
 }
 
 @Test func clientSurvivesServerRestart() async throws {
-    let path = "/tmp/herdrbell_fake_\(ProcessInfo.processInfo.processIdentifier).sock"
+    let path = "/tmp/sheepbell_fake_\(ProcessInfo.processInfo.processIdentifier).sock"
     let server = FakeHerdrServer(path: path)
     try server.start()
 
