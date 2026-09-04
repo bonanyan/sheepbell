@@ -1,0 +1,138 @@
+对话记录:规划 macOS menu bar app 监控 herdr agent 状态
+=====================================================
+日期:2026-09-03
+项目目录:/Users/bonany/sandbox/SheepBell
+环境:herdr 0.8.2(/opt/homebrew/bin/herdr),当前 opencode 会话本身运行在 herdr pane 内
+
+-----------------------------------------------------
+一、用户需求
+-----------------------------------------------------
+在 Mac 上做一个 menu bar app:
+- 点击 menu bar 图标弹出下拉菜单
+- 显示当前 herdr 中运行的各个 agent 的状态
+- 不同状态用不同的视觉样式表示
+- 要求先规划应该怎么编程制作
+
+-----------------------------------------------------
+二、调研过程(只读探测)
+-----------------------------------------------------
+1. 加载 herdr skill,确认:
+   - herdr 是 coding agent 的终端复用器,CLI 返回 JSON
+   - agent 生命周期状态枚举: idle / working / blocked / done / unknown
+     · idle   = 就绪等输入(且所在 tab 已被查看过)
+     · done   = 后台工作完成后的 idle(尚未被查看)
+     · blocked = 识别到审批/提问界面,需要人工介入
+     · working = 工作中
+     · unknown = 有 agent 但无法可靠分类
+   - 命令: herdr agent list / get / focus / wait 等
+
+2. 本地验证 CLI 输出:
+   - `herdr agent list` 返回 JSON:
+     {"result":{"agents":[{"agent":"opencode","agent_status":"working",
+       "cwd":"...","pane_id":"w8:p5","tab_id":"w8:t5","workspace_id":"w8",
+       "terminal_title":"...","focused":true,...}]}}
+   - `herdr api snapshot` 返回完整会话快照(agents/tabs/workspaces/panes/layouts)
+   - `herdr session list --json` 枚举所有 session 及 socket 路径:
+     [{"default":true,"name":"default","running":true,
+       "session_dir":"/Users/bonany/.config/herdr",
+       "socket_path":"/Users/bonany/.config/herdr/herdr.sock"}]
+   - `herdr status` 显示 server running, protocol 20
+
+3. 抓取官方文档 (https://herdr.dev/llms.txt → socket-api.mdx),确认:
+   - Socket 传输: newline-delimited JSON over Unix domain socket
+   - 请求格式: {"id":"req_1","method":"ping","params":{}}
+     成功响应: {"id":"req_1","result":{...}}
+     错误响应: {"id":"req_1","error":{"code":"...","message":"..."}}
+   - `session.snapshot` 用于引导快照,之后靠事件订阅维护本地缓存
+   - `events.subscribe` 订阅后连接保持打开,持续推送事件
+   - 可订阅事件: pane.created / pane.closed / pane.exited / pane.updated /
+     pane.agent_detected / pane.agent_status_changed / workspace.* / tab.* /
+     layout.updated 等
+   - socket 路径规则:
+     ~/.config/herdr/herdr.sock                    (default session)
+     ~/.config/herdr/sessions/<name>/herdr.sock    (命名 session)
+   - 协议有版本号,依赖新行为前先 `ping` 检查,容忍未知字段
+
+4. 用 `herdr api schema --json` 导出完整协议 schema(约 255KB),确认:
+   - AgentStatus enum: idle/working/blocked/done/unknown
+   - Subscription 是 oneOf 结构;其中 `pane.agent_status_changed`
+     required = ["type", "pane_id"](即状态变化订阅必须按 pane 过滤)
+   - AgentTarget(agent.focus 参数)= {"target": "<string>"}
+
+5. 对真实 socket 做只读 Python 探测,验证行为:
+   - `ping` → {"result":{"type":"pong","version":"0.8.2","protocol":20,
+     "capabilities":{"live_handoff":true,"detached_server_daemon":true}}}
+   - 发现: 一次性请求是"一请求一连接",响应后服务端关闭连接
+     (同一连接上发第二个请求会 BrokenPipe)
+   - `events.subscribe` 是长连接,首响应 {"result":{"type":"subscription_started"}},
+     之后持续推事件
+   - 不带 pane_id 订阅 `pane.agent_status_changed` 报错
+     `invalid_request: missing field pane_id` → 确认无全局状态订阅
+   - `agent.list` 一次性请求可正常返回
+
+-----------------------------------------------------
+三、与用户确认的决策(问答)
+-----------------------------------------------------
+1. 技术栈:        Swift + SwiftUI MenuBarExtra(macOS 13+,推荐项,已选)
+2. 数据获取方式:  socket 直连 + 事件订阅(用户未选 CLI 轮询 MVP,直接上直连)
+3. 系统通知:      要 —— agent 变 blocked(需审批)或 done(完成)时发
+                   macOS 通知(UNUserNotificationCenter)
+4. Session 范围:  自动发现所有 session(herdr session list / glob socket 文件)
+
+-----------------------------------------------------
+四、最终架构规划
+-----------------------------------------------------
+项目: HerdrPony(Swift, macOS 14+, Xcode app target, LSUIElement=YES)
+
+HerdrPony/
+├── App/HerdrPonyApp.swift           @main + MenuBarExtra(style: .menu)
+├── Core/
+│   ├── HerdrWire.swift              Codable 信封: {id,method,params} / {id,result|error} / 事件
+│   ├── HerdrSocket.swift            NWConnection(.unix) actor: one-shot 请求 + 订阅流读取
+│   ├── HerdrSessionClient.swift     每 session 一个 actor: 快照→订阅→状态机→断线重连(指数退避)
+│   ├── SessionDiscovery.swift       glob socket 文件 + FSEvents 监听, ping 探活
+│   └── HerdrStore.swift             @Observable 主线程聚合模型, SwiftUI 数据源
+├── Features/
+│   ├── Menu/MenuView.swift          session 分组 → agent 行(状态图标+名称), 点击=focus
+│   ├── StatusStyle.swift            状态→SF Symbol/颜色映射
+│   └── Notifier.swift               blocked/done 转变 → UNUserNotificationCenter
+
+数据流:
+1. SessionDiscovery 发现 socket(默认 + sessions/*/herdr.sock)→ 建 SessionClient
+2. Client: ping(校验 protocol)→ session.snapshot 渲染初值
+3. events.subscribe: 全局生命周期事件 [pane.created, pane.closed, pane.exited,
+   pane.agent_detected, workspace.closed] + 每个 agent pane 的
+   pane.agent_status_changed(必须带 pane_id,合并进同一订阅请求)
+4. 生命周期事件 → 一次性 agent.list 刷新;若 pane 集合变化,
+   关旧订阅连接、带全量订阅集开新连接(规避重订阅语义歧义)
+5. 状态事件 → 更新菜单;转变到 blocked/done → 发系统通知
+6. 点击菜单行 → agent.focus {"target": "<agent名或pane_id>"} 跳转
+7. 连接断开 → 指数退避重连 → 重新 snapshot 引导
+
+状态 → 视觉映射:
+  状态      菜单图标                          menu bar 聚合符号(模板单色,靠形状区分)
+  blocked   hand.raised.fill 红               exclamationmark.octagon.fill
+  working   arrow.triangle.2.circlepath 蓝    arrow.triangle.2.circlepath
+  done      checkmark.circle.fill 绿          checkmark.circle.fill
+  idle      circle.fill 灰                    circle.grid.2x2
+  unknown   questionmark.circle 灰            —
+  未连接    —                                 circle.slash
+  聚合优先级: blocked > working > done > idle
+
+里程碑:
+  M1  Xcode 骨架 + MenuBarExtra 静态菜单 + LSUIElement
+  M2  wire 层: 对真实 socket 跑通 ping / session.snapshot / agent.list
+      (swift-testing + 录制的 JSON fixture 做解码回归)
+  M3  SessionClient + SessionDiscovery: 多 session、事件驱动实时更新
+  M4  菜单 UI + 聚合符号 + 点击 agent.focus
+  M5  blocked/done 系统通知(首次启动申请权限)、断线重连、离线态
+  M6  SMAppService 登录自启、设置项(通知开关)、应用图标、签名打包
+
+风险与对策:
+  - NWConnection .unix 若有怪癖 → 备用: POSIX AF_UNIX socket 包在 actor 里
+  - GUI 环境无 shell PATH → 全程直连 socket,零 CLI 依赖(直连方案的额外收益)
+  - 陈旧 socket 文件(server 已停)→ ping 超时即标记离线
+  - herdr 升级导致协议变化 → ping 校验 protocol 版本 + Codable 容忍未知字段
+  - 事件重订阅语义不明 → 统一用"关旧连接开新连接带全量订阅集"策略
+
+预估工作量: 2–4 天到 M5。用户确认后从 M1 开始实施。
