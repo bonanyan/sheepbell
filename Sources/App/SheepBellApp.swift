@@ -1,3 +1,4 @@
+// SheepBell v0.2
 import SwiftUI
 
 @main
