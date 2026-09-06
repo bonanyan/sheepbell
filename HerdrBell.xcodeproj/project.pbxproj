@@ -41,6 +41,7 @@
 		AFB2AC8AF664EB4A49204833 /* IconSchemeRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D02E52841FF5BE4E275B8DE /* IconSchemeRegistry.swift */; };
 		B1ACF09D96EA6FF30FCA4D59 /* SessionDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A6FE0B8120F3CF13A84B9E /* SessionDiscovery.swift */; };
 		B3DD929E6D704681A4D2E5F2 /* app-icon-master.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4E1456DF696AE47542E2148E /* app-icon-master.svg */; };
+		B9C6FBDB2686ED32B2160AF7 /* ConfigureWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F56BB793CCB1C2442326E7 /* ConfigureWindow.swift */; };
 		BE0F3318CA10846BFAD078F8 /* StatusIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F77FC97864A64308298A74 /* StatusIconImage.swift */; };
 		C5F492F53F17EE6EC794FDBF /* AggregateSymbolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729AA5F3FD5D3EEF05B09D8A /* AggregateSymbolTests.swift */; };
 		C60C5F3E1E28E728F099F417 /* status-blocked.svg in Resources */ = {isa = PBXBuildFile; fileRef = 7DA7780A80C7EA70F9DF1C6C /* status-blocked.svg */; };
@@ -82,6 +83,7 @@
 		4442E866817B24A6B5ACAB36 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		4E1456DF696AE47542E2148E /* app-icon-master.svg */ = {isa = PBXFileReference; path = "app-icon-master.svg"; sourceTree = "<group>"; };
 		52522EC38D8056E6E8C8ED78 /* HerdrSessionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HerdrSessionClient.swift; sourceTree = "<group>"; };
+		56F56BB793CCB1C2442326E7 /* ConfigureWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureWindow.swift; sourceTree = "<group>"; };
 		5928ABEEE40426C57EC37832 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5D02E52841FF5BE4E275B8DE /* IconSchemeRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSchemeRegistry.swift; sourceTree = "<group>"; };
 		60A6FE0B8120F3CF13A84B9E /* SessionDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDiscovery.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		B93F1E82634E88619AEBDC22 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				56F56BB793CCB1C2442326E7 /* ConfigureWindow.swift */,
 				ACE889A62514E5EEBE374440 /* Localization.swift */,
 				FA2DE090EC8EC800E15CB759 /* LoginItem.swift */,
 				7993298C724EE3D3ABCE1C75 /* Notifier.swift */,
@@ -385,6 +388,7 @@
 			files = (
 				AD139669F6AAA421C6A6D501 /* AgentItem.swift in Sources */,
 				99B0B7AA980EC38F3CE4A51F /* ClassicIconScheme.swift in Sources */,
+				B9C6FBDB2686ED32B2160AF7 /* ConfigureWindow.swift in Sources */,
 				92B4C3943597CEB6F306E250 /* CustomIconScheme.swift in Sources */,
 				DA8CB01D9FDF2732363D8530 /* HerdrBellApp.swift in Sources */,
 				5BA3F4695955FE12BF4B5DC9 /* HerdrSessionClient.swift in Sources */,
@@ -461,7 +465,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.herdrbell.HerdrBell;
 				SDKROOT = macosx;
 			};
@@ -618,7 +622,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.herdrbell.HerdrBell;
 				SDKROOT = macosx;
 			};
