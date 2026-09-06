@@ -1,6 +1,8 @@
 <div align="center">
 
-# <img src="Sources/Resources/Artwork/app-icon-master.png" height="32" alt="HerdrBell logo" align="absmiddle"> HerdrBell
+<img src="Sources/Resources/Artwork/app-icon-master.png" height="60" alt="HerdrBell logo">
+
+# HerdrBell
 
 **A tiny macOS menu bar bell for your [herdr](https://herdr.dev) coding agents.**
 
@@ -25,11 +27,11 @@ all by itself. No setup files, no CLI wiring, no paths to paste.
 
 From that moment on, the menu bar icon *is* your status dashboard:
 
-- 🔴 **Blocked** — an agent is blocked and waiting on **you**
-- 🔵 **Working** — agents are working
-- 🟢 **Done** — work finished, waiting to be reviewed
-- ⚪️ **Idle** — everyone is idle
-- 🚫 **Disconnected** — no herdr running right now
+- <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-blocked.imageset/status-blocked.svg" height="16" alt="blocked"> **Blocked** (red) — an agent is blocked and waiting on **you**
+- <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-working.imageset/status-working.svg" height="16" alt="working"> **Working** (blue) — agents are working
+- <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-done.imageset/status-done.svg" height="16" alt="done"> **Done** (green) — work finished, waiting to be reviewed
+- <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-idle.imageset/status-idle.svg" height="16" alt="idle"> **Idle** (gray) — everyone is idle
+- <img src="Sources/Resources/Assets.xcassets/StatusIcons/aggregate-disconnected.imageset/aggregate-disconnected.svg" height="16" alt="disconnected"> **Disconnected** — no herdr running right now
 
 One glance tells you whether it's safe to make coffee. One click opens the
 full per-session agent list; one more click jumps straight to that agent's
@@ -108,40 +110,108 @@ will be watching your agents from the first second of every session.
 ## 📖 Reading the icons
 
 HerdrBell bundles two icon schemes — **Custom** (the default, hand-drawn
-artwork) and **Classic** (SF Symbols). Both use the same colors and the same
-status/aggregate priority; the tables below name the Classic SF Symbols for
-reference. Switch schemes any time in **Configure…**.
+artwork, shown below) and **Classic** (SF Symbols, named for reference).
+Both use the same colors and the same status/aggregate priority. Switch
+schemes any time in **Configure…**.
 
 ### Agent statuses (menu rows)
 
-| Status | Meaning | Icon (Classic scheme) | Color |
-|---|---|---|---|
-| `blocked` | herdr detected an approval prompt or a question — **the agent needs you** | `hand.raised.fill` | 🔴 Red |
-| `working` | The agent is actively running | `arrow.triangle.2.circlepath` | 🔵 Blue |
-| `done` | Background work finished; the tab hasn't been viewed yet | `checkmark.circle.fill` | 🟢 Green |
-| `idle` | Ready for input (already viewed) | `circle.fill` | ⚪️ Gray |
-| `unknown` | An agent is present but can't be classified reliably | `questionmark.circle` | ⚪️ Gray |
+| Status | Icon (Custom, default) | Meaning | Classic symbol | Color |
+|---|---|---|---|---|
+| `blocked` | <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-blocked.imageset/status-blocked.svg" height="20" alt="blocked"> | herdr detected an approval prompt or a question — **the agent needs you** | `hand.raised.fill` | 🔴 Red |
+| `working` | <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-working.imageset/status-working.svg" height="20" alt="working"> | The agent is actively running | `arrow.triangle.2.circlepath` | 🔵 Blue |
+| `done` | <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-done.imageset/status-done.svg" height="20" alt="done"> | Background work finished; the tab hasn't been viewed yet | `checkmark.circle.fill` | 🟢 Green |
+| `idle` | <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-idle.imageset/status-idle.svg" height="20" alt="idle"> | Ready for input (already viewed) | `circle.fill` | ⚪️ Gray |
+| `unknown` | <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-unknown.imageset/status-unknown.svg" height="20" alt="unknown"> | An agent is present but can't be classified reliably | `questionmark.circle` | ⚪️ Gray |
 
-A small `cursorarrow.rays` marker shows which agent currently has focus
-in herdr.
+A small <img src="Sources/Resources/Assets.xcassets/StatusIcons/marker-focused.imageset/marker-focused.svg" height="12" alt="focused"> marker (`cursorarrow.rays` in Classic) shows which agent currently has focus in herdr.
 
 ### Menu bar aggregate symbol
 
 The single menu bar icon summarizes **all** connected sessions using a
 strict priority: **blocked > working > done > idle**.
 
-| Menu bar icon | State |
-|---|---|
-| `exclamationmark.octagon.fill` | At least one agent is **blocked** |
-| `arrow.triangle.2.circlepath` | At least one agent is **working** (none blocked) |
-| `checkmark.circle.fill` | At least one agent is **done** (none blocked/working) |
-| `circle.grid.2x2` | Everything is **idle** |
-| `circle.slash` | **No herdr session connected** (server down or not found) |
+| Menu bar icon (Custom, default) | Classic symbol | State |
+|---|---|---|
+| <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-blocked.imageset/status-blocked.svg" height="18" alt="blocked"> | `exclamationmark.octagon.fill` | At least one agent is **blocked** |
+| <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-working.imageset/status-working.svg" height="18" alt="working"> | `arrow.triangle.2.circlepath` | At least one agent is **working** (none blocked) |
+| <img src="Sources/Resources/Assets.xcassets/StatusIcons/status-done.imageset/status-done.svg" height="18" alt="done"> | `checkmark.circle.fill` | At least one agent is **done** (none blocked/working) |
+| <img src="Sources/Resources/Assets.xcassets/StatusIcons/aggregate-idle.imageset/aggregate-idle.svg" height="18" alt="idle"> | `circle.grid.2x2` | Everything is **idle** |
+| <img src="Sources/Resources/Assets.xcassets/StatusIcons/aggregate-disconnected.imageset/aggregate-disconnected.svg" height="18" alt="disconnected"> | `circle.slash` | **No herdr session connected** (server down or not found) |
 
 **Idle debounce:** transitions *to* the all-idle grid are delayed by 5
 seconds. Agents flicker through `idle` between tool calls; the debounce
 keeps the menu bar stable while work is clearly still in progress.
 Transitions to blocked/working/done and disconnects are **immediate**.
+
+## 🎨 Customizing icons
+
+### Switching bundled schemes
+
+Open the menu → **Configure… → Icon style**. The choice applies everywhere
+at once: menu rows, the focused-agent marker, and the menu bar aggregate.
+**Custom** (hand-drawn, default) and **Classic** (SF Symbols) ship with the
+app; any scheme you add yourself (see below) appears in the same picker.
+
+### Redrawing the status glyphs
+
+The Custom scheme's vectors are generated from Illustrator-ready masters in
+`Sources/Resources/Artwork/`. To change a glyph, open its master, re-draw
+inside the dashed safe area, delete the `guides-delete-me` layer, and export
+SVG (Styling = Presentation Attributes):
+
+| File | Used for | Canvas |
+|---|---|---|
+| `status-blocked.svg` | menu row + menu bar when blocked | 20×20 pt |
+| `status-working.svg` | menu row + menu bar when working | 20×20 pt |
+| `status-done.svg` | menu row + menu bar when done | 20×20 pt |
+| `status-idle.svg` | menu row when idle | 20×20 pt |
+| `status-unknown.svg` | menu row when unknown | 20×20 pt |
+| `aggregate-idle.svg` | menu bar when everything is idle | 18×18 pt |
+| `aggregate-disconnected.svg` | menu bar when no herdr session | 18×18 pt |
+| `marker-focused.svg` | focused-agent marker in menu rows | 12×12 pt |
+
+Rules for the glyphs:
+
+- **Pure black on transparent** — they are macOS *template images*: the
+  system ignores color and tints them; per-status color comes from the scheme.
+- Keep artwork inside the safe-area guide; ~1.5–2 pt stroke weight; verify
+  legibility at 18 px.
+
+Then run:
+
+```sh
+Scripts/import_icons.sh
+```
+
+It strips the guide layer, skips any glyph that is still empty, and writes
+the finished art into `Assets.xcassets/StatusIcons/*.imageset` as
+vector-preserving template images. Until artwork is imported, the Custom
+scheme gracefully renders its SF Symbol fallbacks. Rebuild (`make`) to see
+the new glyphs in the app.
+
+### Replacing the app icon
+
+Drop a square, full-color PNG (1024×1024 or larger, transparent outside the
+rounded-rect silhouette) over
+`Sources/Resources/Artwork/app-icon-master.png`, then:
+
+```sh
+make            # re-slices every size and rebuilds, or:
+make icons      # just re-slice into Assets.xcassets/AppIcon.appiconset
+```
+
+(`Scripts/import_icons.sh` and `swift Scripts/MakeIcon.swift --master <png>`
+do the same slicing without a full build.)
+
+### Adding a whole new scheme (developers)
+
+1. Create a struct conforming to `IconScheme` (see `ClassicIconScheme`).
+2. Append it to `IconSchemeRegistry.all`.
+3. Add a localized display name under its `displayNameKey` in the String Catalog.
+
+That's it — the Configure picker, the menu, and the menu bar aggregate all
+pick up the new scheme automatically.
 
 ## ⚙️ Configure
 
@@ -194,56 +264,6 @@ Sources/
 │   └── Notifier.swift               UNUserNotificationCenter posting
 └── Resources/Localizable.xcstrings  String Catalog (8 languages)
 ```
-
-### Adding an icon scheme
-
-1. Create a struct conforming to `IconScheme` (see `ClassicIconScheme`).
-2. Append it to `IconSchemeRegistry.all`.
-3. Add a localized display name under its `displayNameKey` in the String Catalog.
-
-That's it — the Configure picker, the menu, and the menu bar aggregate all
-pick up the new scheme automatically.
-
-### Drawing custom status icons (artwork spec)
-
-The bundled **Custom** scheme (the default) ships with finished hand-drawn
-artwork. Its Illustrator-ready masters live in `Sources/Resources/Artwork/` —
-open one to re-draw a glyph inside the dashed safe area, delete the
-`guides-delete-me` layer, and export SVG (Styling = Presentation Attributes):
-
-| File | Used for | Canvas |
-|---|---|---|
-| `status-blocked.svg` | menu row + menu bar when blocked | 20×20 pt |
-| `status-working.svg` | menu row + menu bar when working | 20×20 pt |
-| `status-done.svg` | menu row + menu bar when done | 20×20 pt |
-| `status-idle.svg` | menu row when idle | 20×20 pt |
-| `status-unknown.svg` | menu row when unknown | 20×20 pt |
-| `aggregate-idle.svg` | menu bar when everything is idle | 18×18 pt |
-| `aggregate-disconnected.svg` | menu bar when no herdr session | 18×18 pt |
-| `marker-focused.svg` | focused-agent marker in menu rows | 12×12 pt |
-| `app-icon-master.svg` | app icon (export 1024×1024 PNG from it) | 1024×1024 px |
-
-Rules for the glyphs:
-
-- **Pure black on transparent** — they are macOS *template images*: the
-  system ignores color and tints them; per-status color comes from the scheme.
-- Keep artwork inside the safe-area guide; ~1.5–2 pt stroke weight; verify
-  legibility at 18 px.
-- The app icon master is the exception: **full color**, drawn inside the
-  rounded-rect silhouette guide, transparent outside.
-
-Then run:
-
-```sh
-Scripts/import_icons.sh
-```
-
-It strips the guide layer, skips any glyph that is still empty, and writes
-the finished art into `Assets.xcassets/StatusIcons/*.imageset` as
-vector-preserving template images. If a 1024×1024 `app-icon-master.png` is
-present it also re-slices the app icon
-(`Scripts/MakeIcon.swift --master <png>` does that alone). Until artwork is
-imported, the Custom scheme gracefully renders its SF Symbol fallbacks.
 
 ## 🧪 Tests
 
