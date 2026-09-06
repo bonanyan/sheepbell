@@ -1,4 +1,4 @@
-// HerdrBell v1.2
+// HerdrBell v1.3
 import SwiftUI
 
 @main
@@ -34,10 +34,5 @@ struct HerdrBellApp: App {
         .menuBarExtraStyle(.window)
         .environment(store)
         .environment(localization)
-
-        Settings {
-            SettingsView()
-                .environment(localization)
-        }
     }
 }

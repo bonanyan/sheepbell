@@ -51,33 +51,12 @@ struct MenuView: View {
     }
 
     /// Opens the Configure window and reliably grabs focus. This is an
-    /// LSUIElement menu bar app, so when the window is already open but sits
-    /// behind other apps, re-showing it alone will not bring it forward: close
-    /// any existing window first, then re-open it on the next runloop turn and
-    /// activate the app so the fresh window takes focus.
+    /// LSUIElement menu bar app, so the window is owned and shown directly
+    /// by `ConfigureWindow` — `makeKeyAndOrderFront` plus app activation
+    /// brings it forward even when it was already open behind other apps.
     private func openConfigure() {
-        let existing = Self.configureWindow
         dismiss()
-        existing?.close()
-        DispatchQueue.main.async {
-            NSApp.activate(ignoringOtherApps: true)
-            if !NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil) {
-                NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
-            }
-        }
-    }
-
-    /// The app's Settings/Configure window when it is currently open.
-    private static var configureWindow: NSWindow? {
-        if let byID = NSApp.windows.first(where: { window in
-            guard let id = window.identifier?.rawValue else { return false }
-            return id.localizedCaseInsensitiveContains("settings")
-        }) {
-            return byID
-        }
-        return NSApp.windows.first { window in
-            window.styleMask.contains(.titled) && !(window is NSPanel)
-        }
+        ConfigureWindow.show()
     }
 
     @ViewBuilder
