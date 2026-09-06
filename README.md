@@ -10,11 +10,30 @@ with one click.
 
 ![macOS 15+](https://img.shields.io/badge/macOS-15%2B-blue?logo=apple)
 ![Swift 6](https://img.shields.io/badge/Swift-6.0-orange?logo=swift)
-![License: MIT](https://img.shields.io/badge/License-MIT-green)
+![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue)
 
 </div>
 
 ---
+
+## 🔔 Install it, and just look up
+
+**There is nothing to configure.** Drop SheepBell in your Applications
+folder, launch it, and it silently finds every **running herdr server** on
+your machine — along with all of its **sessions, workspaces, and agents** —
+all by itself. No setup files, no CLI wiring, no paths to paste.
+
+From that moment on, the menu bar icon *is* your status dashboard:
+
+- 🔴 **Octagon** — an agent is blocked and waiting on **you**
+- 🔵 **Spinning arrows** — agents are working
+- 🟢 **Checkmark** — work finished, waiting to be reviewed
+- ⚪️ **Grid** — everyone is idle
+- 🚫 **Slashed circle** — no herdr running right now
+
+One glance tells you whether it's safe to make coffee. One click opens the
+full per-session agent list; one more click jumps straight to that agent's
+pane. That's the whole product.
 
 ## ✨ What it does
 
@@ -38,15 +57,32 @@ with one click.
 - **Pluggable icon schemes** — status icons come from a swappable theme
   engine; new schemes can be added without touching the UI code.
 
-## 🚀 Getting started
+## 🚀 Install
 
 ### Requirements
 
 - macOS 15 or later
-- A running [herdr](https://herdr.dev) server (SheepBell finds it automatically)
-- [XcodeGen](https://github.com/yonaskolb/XcodeGen) for building from source
+- A running [herdr](https://herdr.dev) server — SheepBell finds it automatically,
+  together with every session, workspace, and agent inside it. Nothing else.
 
-### Build & run
+> **Windows and Linux versions will launch later.** SheepBell is macOS-only
+> for now; cross-platform builds are on the roadmap.
+
+### Download & install (recommended)
+
+Grab the latest `SheepBell.zip` from the
+[Releases page](https://github.com/bonanyan/sheepbell/releases), unzip it,
+and drag `SheepBell.app` into `/Applications`. Launch it — that's the whole
+install. It appears in the menu bar and immediately starts watching herdr:
+no config files, no terminal commands, no setup wizard.
+
+> Release downloads are coming soon; until then, build from source below.
+
+### Build from source (XcodeGen required)
+
+[XcodeGen](https://github.com/yonaskolb/XcodeGen) is needed **only for
+building from source** — an installed release needs nothing but macOS and
+herdr.
 
 ```sh
 xcodegen generate
@@ -61,7 +97,9 @@ Scripts/package.sh          # → build/SheepBell.app + build/SheepBell.zip
 ```
 
 SheepBell runs as a menu-bar-only app (`LSUIElement`) — no Dock icon,
-no main window. On first launch it asks for permission to send notifications.
+no main window. On first launch it asks for permission to send
+notifications. Flip on **Launch SheepBell at login** in Configure and it
+will be watching your agents from the first second of every session.
 
 ## 📖 Reading the icons
 
@@ -174,4 +212,4 @@ coding agents and its documented socket API.
 
 ## 📄 License
 
-MIT — see [LICENSE](LICENSE).
+Apache License Version 2.0 — see [LICENSE](LICENSE).
