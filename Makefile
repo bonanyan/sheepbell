@@ -14,7 +14,11 @@ SOURCES := $(shell find Sources Tests project.yml -type f 2>/dev/null)
 
 .PHONY: all package test install clean icons
 
-all: $(BUILD_DIR)/$(APP).app
+ZIP   := $(BUILD_DIR)/$(APP).zip
+DMG   := $(BUILD_DIR)/$(APP).dmg
+STAGE := $(BUILD_DIR)/dmg-staging
+
+all: $(BUILD_DIR)/$(APP).app $(ZIP) $(DMG)
 
 icons: $(ICONSET)/icon_1024.png
 
@@ -29,8 +33,18 @@ $(BUILD_DIR)/$(APP).app: $(SOURCES) $(ICONSET)/icon_1024.png
 	cp -R $(BUILT_APP) $@
 	codesign --force --deep --sign - $@
 
-package: all
+$(ZIP): $(BUILD_DIR)/$(APP).app
 	cd $(BUILD_DIR) && rm -f $(APP).zip && zip -qry $(APP).zip $(APP).app
+
+$(DMG): $(BUILD_DIR)/$(APP).app
+	rm -rf $(STAGE)
+	mkdir -p $(STAGE)
+	cp -R $(BUILD_DIR)/$(APP).app $(STAGE)/
+	ln -s /Applications $(STAGE)/Applications
+	hdiutil create -volname $(APP) -srcfolder $(STAGE) -ov -format UDZO $@
+	rm -rf $(STAGE)
+
+package: $(ZIP) $(DMG)
 
 test:
 	xcodegen generate
