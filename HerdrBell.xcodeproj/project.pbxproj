@@ -41,6 +41,7 @@
 		AFB2AC8AF664EB4A49204833 /* IconSchemeRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D02E52841FF5BE4E275B8DE /* IconSchemeRegistry.swift */; };
 		B1ACF09D96EA6FF30FCA4D59 /* SessionDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A6FE0B8120F3CF13A84B9E /* SessionDiscovery.swift */; };
 		B3DD929E6D704681A4D2E5F2 /* app-icon-master.svg in Resources */ = {isa = PBXBuildFile; fileRef = 4E1456DF696AE47542E2148E /* app-icon-master.svg */; };
+		BE0F3318CA10846BFAD078F8 /* StatusIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F77FC97864A64308298A74 /* StatusIconImage.swift */; };
 		C5F492F53F17EE6EC794FDBF /* AggregateSymbolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729AA5F3FD5D3EEF05B09D8A /* AggregateSymbolTests.swift */; };
 		C60C5F3E1E28E728F099F417 /* status-blocked.svg in Resources */ = {isa = PBXBuildFile; fileRef = 7DA7780A80C7EA70F9DF1C6C /* status-blocked.svg */; };
 		C9A70C5921D41B6B42CB06C7 /* IconScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAA0D3EE81044C9048A6EFA /* IconScheme.swift */; };
@@ -103,6 +104,7 @@
 		B17CFB34BC5BFCDADFB942B5 /* aggregate-disconnected.svg */ = {isa = PBXFileReference; path = "aggregate-disconnected.svg"; sourceTree = "<group>"; };
 		B873994A0A09296B9BF663BD /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B94C656F9E968E8ECC023291 /* aggregate-idle.svg */ = {isa = PBXFileReference; path = "aggregate-idle.svg"; sourceTree = "<group>"; };
+		B9F77FC97864A64308298A74 /* StatusIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusIconImage.swift; sourceTree = "<group>"; };
 		BF713A1F60B4A4EB3B3E70EA /* HerdrStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HerdrStore.swift; sourceTree = "<group>"; };
 		C001CE34FF6D29416311124C /* session_snapshot.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = session_snapshot.json; sourceTree = "<group>"; };
 		C41B043A17417590343B80CD /* HerdrWire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HerdrWire.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				1C597ABDF458E0207822D961 /* CustomIconScheme.swift */,
 				6AAA0D3EE81044C9048A6EFA /* IconScheme.swift */,
 				5D02E52841FF5BE4E275B8DE /* IconSchemeRegistry.swift */,
+				B9F77FC97864A64308298A74 /* StatusIconImage.swift */,
 				7B4F4170759A74A5F706F183 /* StatusIconView.swift */,
 			);
 			path = IconSchemes;
@@ -398,6 +401,7 @@
 				0B8817962DE5D7A4D3820016 /* Notifier.swift in Sources */,
 				B1ACF09D96EA6FF30FCA4D59 /* SessionDiscovery.swift in Sources */,
 				294DFA5773B41A1A70497159 /* SettingsView.swift in Sources */,
+				BE0F3318CA10846BFAD078F8 /* StatusIconImage.swift in Sources */,
 				56CCE855CE767D0FCDD390CF /* StatusIconView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,7 +461,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.herdrbell.HerdrBell;
 				SDKROOT = macosx;
 			};
@@ -614,7 +618,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.herdrbell.HerdrBell;
 				SDKROOT = macosx;
 			};
