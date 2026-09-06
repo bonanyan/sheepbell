@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🔔 SheepBell
+# <img src="Sources/Resources/Artwork/app-icon-master.png" height="32" alt="HerdrBell logo" align="absmiddle"> HerdrBell
 
 **A tiny macOS menu bar bell for your [herdr](https://herdr.dev) coding agents.**
 
@@ -18,18 +18,18 @@ with one click.
 
 ## 🔔 Install it, and just look up
 
-**There is nothing to configure.** Drop SheepBell in your Applications
+**There is nothing to configure.** Drop HerdrBell in your Applications
 folder, launch it, and it silently finds every **running herdr server** on
 your machine — along with all of its **sessions, workspaces, and agents** —
 all by itself. No setup files, no CLI wiring, no paths to paste.
 
 From that moment on, the menu bar icon *is* your status dashboard:
 
-- 🔴 **Octagon** — an agent is blocked and waiting on **you**
-- 🔵 **Spinning arrows** — agents are working
-- 🟢 **Checkmark** — work finished, waiting to be reviewed
-- ⚪️ **Grid** — everyone is idle
-- 🚫 **Slashed circle** — no herdr running right now
+- 🔴 **Blocked** — an agent is blocked and waiting on **you**
+- 🔵 **Working** — agents are working
+- 🟢 **Done** — work finished, waiting to be reviewed
+- ⚪️ **Idle** — everyone is idle
+- 🚫 **Disconnected** — no herdr running right now
 
 One glance tells you whether it's safe to make coffee. One click opens the
 full per-session agent list; one more click jumps straight to that agent's
@@ -62,17 +62,17 @@ pane. That's the whole product.
 ### Requirements
 
 - macOS 15 or later
-- A running [herdr](https://herdr.dev) server — SheepBell finds it automatically,
+- A running [herdr](https://herdr.dev) server — HerdrBell finds it automatically,
   together with every session, workspace, and agent inside it. Nothing else.
 
-> **Windows and Linux versions will launch later.** SheepBell is macOS-only
+> **Windows and Linux versions will launch later.** HerdrBell is macOS-only
 > for now; cross-platform builds are on the roadmap.
 
 ### Download & install (recommended)
 
-Grab the latest `SheepBell.zip` from the
+Grab the latest `HerdrBell.zip` from the
 [Releases page](https://github.com/bonanyan/sheepbell/releases), unzip it,
-and drag `SheepBell.app` into `/Applications`. Launch it — that's the whole
+and drag `HerdrBell.app` into `/Applications`. Launch it — that's the whole
 install. It appears in the menu bar and immediately starts watching herdr:
 no config files, no terminal commands, no setup wizard.
 
@@ -86,26 +86,31 @@ herdr.
 
 ```sh
 xcodegen generate
-open SheepBell.xcodeproj   # then ⌘R, or:
-xcodebuild -project SheepBell.xcodeproj -scheme SheepBell -configuration Release build
+open HerdrBell.xcodeproj   # then ⌘R, or:
+xcodebuild -project HerdrBell.xcodeproj -scheme HerdrBell -configuration Release build
 ```
 
 Or use the packaging script, which produces a signed, zipped app:
 
 ```sh
-Scripts/package.sh          # → build/SheepBell.app + build/SheepBell.zip
+Scripts/package.sh          # → build/HerdrBell.app + build/HerdrBell.zip
 ```
 
-SheepBell runs as a menu-bar-only app (`LSUIElement`) — no Dock icon,
+HerdrBell runs as a menu-bar-only app (`LSUIElement`) — no Dock icon,
 no main window. On first launch it asks for permission to send
-notifications. Flip on **Launch SheepBell at login** in Configure and it
+notifications. Flip on **Launch HerdrBell at login** in Configure and it
 will be watching your agents from the first second of every session.
 
 > **Using a menu bar manager?** Tools like Ice or Bartender auto-hide new
-> menu bar items. If SheepBell's icon seems missing, reveal/unhide it in
+> menu bar items. If HerdrBell's icon seems missing, reveal/unhide it in
 > your manager's settings — the app itself is running fine.
 
 ## 📖 Reading the icons
+
+HerdrBell bundles two icon schemes — **Custom** (the default, hand-drawn
+artwork) and **Classic** (SF Symbols). Both use the same colors and the same
+status/aggregate priority; the tables below name the Classic SF Symbols for
+reference. Switch schemes any time in **Configure…**.
 
 ### Agent statuses (menu rows)
 
@@ -145,8 +150,8 @@ Click the menu bar icon → **Configure…** to open the settings window:
 | Setting | Options |
 |---|---|
 | **Language** | English (default), Korean, Chinese (Simplified), Vietnamese, German, Hindi, French, Japanese — applied instantly to menus, settings, and notifications |
-| **Icon style** | The icon scheme used for agent statuses and the menu bar symbol (currently **Classic**; more schemes can be added) |
-| **Launch SheepBell at login** | Registers the app as a login item via `SMAppService` |
+| **Icon style** | The icon scheme used for agent statuses and the menu bar symbol (default **Custom**, hand-drawn; the built-in **Classic** SF Symbols are also bundled, and more schemes can be added) |
+| **Launch HerdrBell at login** | Registers the app as a login item via `SMAppService` |
 | **Notify when an agent becomes blocked or done** | Master switch for macOS notifications |
 
 ## 🏗 Architecture
@@ -168,7 +173,7 @@ herdr server ──unix socket──► HerdrSocket (NWConnection actor)
 
 ```
 Sources/
-├── App/SheepBellApp.swift           @main, MenuBarExtra + Settings scenes
+├── App/HerdrBellApp.swift           @main, MenuBarExtra + Settings scenes
 ├── Core/
 │   ├── HerdrWire.swift              Codable envelopes for the herdr protocol
 │   ├── HerdrSocket.swift            NWConnection(.unix) actor: one-shot + streaming
@@ -182,7 +187,8 @@ Sources/
 │   ├── Localization.swift           AppLanguage + LocalizationManager (live switching)
 │   ├── IconSchemes/
 │   │   ├── IconScheme.swift         the theme protocol
-│   │   ├── ClassicIconScheme.swift  the built-in scheme
+│   │   ├── CustomIconScheme.swift   hand-drawn artwork (default)
+│   │   ├── ClassicIconScheme.swift  SF Symbols scheme
 │   │   └── IconSchemeRegistry.swift discovery + persistence keys
 │   ├── LoginItem.swift              SMAppService wrapper
 │   └── Notifier.swift               UNUserNotificationCenter posting
@@ -200,10 +206,10 @@ pick up the new scheme automatically.
 
 ### Drawing custom status icons (artwork spec)
 
-The bundled **Custom** scheme ships as empty Illustrator-ready templates in
-`Sources/Resources/Artwork/`. Open one, draw inside the dashed safe area,
-delete the `guides-delete-me` layer, and export SVG
-(Styling = Presentation Attributes):
+The bundled **Custom** scheme (the default) ships with finished hand-drawn
+artwork. Its Illustrator-ready masters live in `Sources/Resources/Artwork/` —
+open one to re-draw a glyph inside the dashed safe area, delete the
+`guides-delete-me` layer, and export SVG (Styling = Presentation Attributes):
 
 | File | Used for | Canvas |
 |---|---|---|
@@ -242,7 +248,7 @@ imported, the Custom scheme gracefully renders its SF Symbol fallbacks.
 ## 🧪 Tests
 
 ```sh
-xcodebuild -project SheepBell.xcodeproj -scheme SheepBell test
+xcodebuild -project HerdrBell.xcodeproj -scheme HerdrBell test
 ```
 
 swift-testing suite covering wire decoding (recorded JSON fixtures),

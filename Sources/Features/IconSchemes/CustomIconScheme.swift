@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Hand-drawn SheepBell artwork living in
+/// Hand-drawn HerdrBell artwork living in
 /// `Sources/Resources/Assets.xcassets/StatusIcons/` (template images).
 /// Every asset carries an SF Symbol fallback so the scheme stays fully
 /// functional before the artwork is imported.

@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import SheepBell
+@testable import HerdrBell
 
 @Test
 func registryHasUniqueIdsAndResolvesDefaults() {

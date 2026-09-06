@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import SheepBell
+@testable import HerdrBell
 
 private final class SessionCollector: @unchecked Sendable {
     private let lock = NSLock()

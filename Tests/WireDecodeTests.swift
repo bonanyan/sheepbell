@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import SheepBell
+@testable import HerdrBell
 
 private func fixtureData(_ name: String) throws -> Data {
     let url = URL(fileURLWithPath: #filePath)

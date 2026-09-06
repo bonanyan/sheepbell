@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct MenuView: View {
@@ -18,7 +19,9 @@ struct MenuView: View {
 
             Divider().padding(.vertical, 4)
 
-            SettingsLink {
+            Button {
+                openConfigure()
+            } label: {
                 Label(l10n.string("menu.configure"), systemImage: "gear")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
@@ -38,13 +41,43 @@ struct MenuView: View {
             }
             .buttonStyle(.plain)
 
-            Text(verbatim: "SheepBell v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?")")
+            Text(verbatim: "HerdrBell v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?")")
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, 6)
         }
         .frame(width: 280)
+    }
+
+    /// Opens the Configure window and reliably grabs focus. This is an
+    /// LSUIElement menu bar app, so when the window is already open but sits
+    /// behind other apps, re-showing it alone will not bring it forward: close
+    /// any existing window first, then re-open it on the next runloop turn and
+    /// activate the app so the fresh window takes focus.
+    private func openConfigure() {
+        let existing = Self.configureWindow
+        dismiss()
+        existing?.close()
+        DispatchQueue.main.async {
+            NSApp.activate(ignoringOtherApps: true)
+            if !NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil) {
+                NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+            }
+        }
+    }
+
+    /// The app's Settings/Configure window when it is currently open.
+    private static var configureWindow: NSWindow? {
+        if let byID = NSApp.windows.first(where: { window in
+            guard let id = window.identifier?.rawValue else { return false }
+            return id.localizedCaseInsensitiveContains("settings")
+        }) {
+            return byID
+        }
+        return NSApp.windows.first { window in
+            window.styleMask.contains(.titled) && !(window is NSPanel)
+        }
     }
 
     @ViewBuilder

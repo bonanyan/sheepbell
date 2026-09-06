@@ -325,49 +325,49 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "SheepBell beenden"
+            "value": "HerdrBell beenden"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quit SheepBell"
+            "value": "Quit HerdrBell"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quitter SheepBell"
+            "value": "Quitter HerdrBell"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "SheepBell बंद करें"
+            "value": "HerdrBell बंद करें"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "SheepBell を終了"
+            "value": "HerdrBell を終了"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "SheepBell 종료"
+            "value": "HerdrBell 종료"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thoát SheepBell"
+            "value": "Thoát HerdrBell"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "退出 SheepBell"
+            "value": "退出 HerdrBell"
           }
         }
       }
@@ -749,49 +749,49 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "SheepBell bei der Anmeldung starten"
+            "value": "HerdrBell bei der Anmeldung starten"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Launch SheepBell at login"
+            "value": "Launch HerdrBell at login"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lancer SheepBell à la connexion"
+            "value": "Lancer HerdrBell à la connexion"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "लॉगइन पर SheepBell चालू करें"
+            "value": "लॉगइन पर HerdrBell चालू करें"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ログイン時に SheepBell を起動する"
+            "value": "ログイン時に HerdrBell を起動する"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "로그인할 때 SheepBell 실행"
+            "value": "로그인할 때 HerdrBell 실행"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Khởi chạy SheepBell khi đăng nhập"
+            "value": "Khởi chạy HerdrBell khi đăng nhập"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "登录时启动 SheepBell"
+            "value": "登录时启动 HerdrBell"
           }
         }
       }

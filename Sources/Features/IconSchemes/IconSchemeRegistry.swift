@@ -3,8 +3,8 @@ import Foundation
 enum IconSchemeRegistry {
     /// All available icon schemes, in Configure-picker order.
     static let all: [any IconScheme] = [
-        ClassicIconScheme(),
         CustomIconScheme(),
+        ClassicIconScheme(),
     ]
 
     static var `default`: any IconScheme { all[0] }

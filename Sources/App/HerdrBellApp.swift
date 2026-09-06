@@ -1,8 +1,8 @@
-// SheepBell v0.4
+// HerdrBell v1.0
 import SwiftUI
 
 @main
-struct SheepBellApp: App {
+struct HerdrBellApp: App {
     @State private var store: HerdrStore
     @State private var localization = LocalizationManager.shared
 
@@ -10,7 +10,7 @@ struct SheepBellApp: App {
         let store = HerdrStore()
         _store = State(initialValue: store)
         store.start()
-        if CommandLine.arguments.contains("--sheepbell-test-notification") {
+        if CommandLine.arguments.contains("--herdrbell-test-notification") {
             Task { @MainActor in
                 try? await Task.sleep(for: .seconds(2))
                 let l10n = LocalizationManager.shared

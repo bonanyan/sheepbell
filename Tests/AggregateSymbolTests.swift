@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import SheepBell
+@testable import HerdrBell
 
 private func makeAgent(_ status: AgentStatus) -> AgentItem {
     AgentItem(
@@ -15,10 +15,11 @@ private func makeAgent(_ status: AgentStatus) -> AgentItem {
     )
 }
 
-private let scheme = ClassicIconScheme()
+private let scheme = IconSchemeRegistry.default
 
 @MainActor
 private func makeConnectedStore(settleDelay: TimeInterval) async -> HerdrStore {
+    UserDefaults.standard.set(IconSchemeRegistry.default.id, forKey: SettingsKeys.iconSchemeID)
     let store = HerdrStore(idleSettleDelay: settleDelay)
     store.enableForTesting()
     store.addSessionForTesting(name: "default")
