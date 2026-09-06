@@ -213,6 +213,8 @@ do the same slicing without a full build.)
 That's it — the Configure picker, the menu, and the menu bar aggregate all
 pick up the new scheme automatically.
 
+<small>**Copyright disclaimer:** the default "customized icons" shipped with HerdrBell (the bundled **Custom** scheme artwork) are Chikin Icons from SVGRepo, collection: [Chikin Variety Glyph Icons](https://www.svgrepo.com/collection/chikin-variety-glyph-icons/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). This icon has not been modified. Artwork you import yourself remains under your own license.</small>
+
 ## ⚙️ Configure
 
 Click the menu bar icon → **Configure…** to open the settings window:
