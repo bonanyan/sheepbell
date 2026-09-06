@@ -1,4 +1,4 @@
-// SheepBell v0.3
+// SheepBell v0.4
 import SwiftUI
 
 @main
