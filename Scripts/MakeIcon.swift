@@ -1,10 +1,28 @@
 import AppKit
 import Foundation
 
-func renderIcon(pixelSize: CGFloat) -> NSImage {
+func makeBitmapRep(pixelSize: CGFloat) -> NSBitmapImageRep {
+    let rep = NSBitmapImageRep(
+        bitmapDataPlanes: nil,
+        pixelsWide: Int(pixelSize),
+        pixelsHigh: Int(pixelSize),
+        bitsPerSample: 8,
+        samplesPerPixel: 4,
+        hasAlpha: true,
+        isPlanar: false,
+        colorSpaceName: .deviceRGB,
+        bytesPerRow: 0,
+        bitsPerPixel: 0
+    )!
+    rep.size = NSSize(width: pixelSize, height: pixelSize)
+    return rep
+}
+
+func renderIcon(pixelSize: CGFloat) -> NSBitmapImageRep {
     let size = NSSize(width: pixelSize, height: pixelSize)
-    let image = NSImage(size: size)
-    image.lockFocus()
+    let rep = makeBitmapRep(pixelSize: pixelSize)
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
 
     let rect = CGRect(origin: .zero, size: size)
     let radius = pixelSize * 0.225
@@ -51,14 +69,15 @@ func renderIcon(pixelSize: CGFloat) -> NSImage {
         }
     }
 
-    image.unlockFocus()
-    return image
+    NSGraphicsContext.restoreGraphicsState()
+    return rep
 }
 
-func renderFromMaster(_ master: NSImage, pixelSize: CGFloat) -> NSImage {
+func renderFromMaster(_ master: NSImage, pixelSize: CGFloat) -> NSBitmapImageRep {
     let size = NSSize(width: pixelSize, height: pixelSize)
-    let image = NSImage(size: size)
-    image.lockFocus()
+    let rep = makeBitmapRep(pixelSize: pixelSize)
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
     NSGraphicsContext.current?.imageInterpolation = .high
     master.draw(
         in: CGRect(origin: .zero, size: size),
@@ -66,15 +85,12 @@ func renderFromMaster(_ master: NSImage, pixelSize: CGFloat) -> NSImage {
         operation: .sourceOver,
         fraction: 1
     )
-    image.unlockFocus()
-    return image
+    NSGraphicsContext.restoreGraphicsState()
+    return rep
 }
 
-func savePNG(_ image: NSImage, to url: URL) {
-    guard let tiff = image.tiffRepresentation,
-          let rep = NSBitmapImageRep(data: tiff),
-          let png = rep.representation(using: .png, properties: [:])
-    else {
+func savePNG(_ rep: NSBitmapImageRep, to url: URL) {
+    guard let png = rep.representation(using: .png, properties: [:]) else {
         fatalError("failed to encode PNG for \(url.lastPathComponent)")
     }
     try? png.write(to: url)
