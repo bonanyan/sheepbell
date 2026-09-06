@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="Sources/Resources/Artwork/app-icon-master.png" height="60" alt="HerdrBell logo">
+<img src="Sources/Resources/Artwork/app-icon-master.png" height="150" alt="HerdrBell logo">
 
 # HerdrBell
 
