@@ -92,10 +92,11 @@ open HerdrBell.xcodeproj   # then ⌘R, or:
 xcodebuild -project HerdrBell.xcodeproj -scheme HerdrBell -configuration Release build
 ```
 
-Or use the packaging script, which produces a signed, zipped app:
+Or just use the Makefile, which drives XcodeGen, `xcodebuild`, icon
+slicing, and packaging in one go (see the Makefile tutorial below):
 
 ```sh
-Scripts/package.sh          # → build/HerdrBell.app + build/HerdrBell.zip
+make                        # → build/HerdrBell.app + .zip + .dmg
 ```
 
 HerdrBell runs as a menu-bar-only app (`LSUIElement`) — no Dock icon,
@@ -106,6 +107,41 @@ will be watching your agents from the first second of every session.
 > **Using a menu bar manager?** Tools like Ice or Bartender auto-hide new
 > menu bar items. If HerdrBell's icon seems missing, reveal/unhide it in
 > your manager's settings — the app itself is running fine.
+
+## 🛠 Makefile tutorial
+
+The `Makefile` wraps XcodeGen, `xcodebuild`, app-icon slicing, and
+packaging behind a handful of targets. Plain `make` runs the whole
+pipeline: generate the project, build the Release app, then package it.
+
+| Command | What it does |
+|---|---|
+| `make` / `make all` | Builds `build/HerdrBell.app`, then packages `build/HerdrBell.zip` and the drag-install `build/HerdrBell.dmg` |
+| `make package` | (Re)packages zip + dmg from the current `build/HerdrBell.app` |
+| `make icons` | Re-slices `Sources/Resources/Artwork/app-icon-master.png` into every size in `AppIcon.appiconset` |
+| `make test` | Runs the swift-testing suite |
+| `make install` | Builds, then copies the app to `/Applications` and launches it (`Scripts/install.sh`) |
+| `make clean` | Removes `build/` entirely (app, packages, DerivedData) |
+
+Common workflows:
+
+```sh
+make                    # full build + zip + dmg
+make CONFIG=Debug       # build a Debug configuration instead of Release
+make icons && make      # after replacing app-icon-master.png
+make clean && make      # full rebuild from scratch
+make install            # build and put it in /Applications
+```
+
+Good to know:
+
+- Targets are file-based — re-running `make` with unchanged sources is a
+  no-op; editing anything under `Sources/`, `Tests/`, or `project.yml`
+  re-runs only the steps that need it.
+- Replacing `Sources/Resources/Artwork/app-icon-master.png` automatically
+  re-slices the app icon on the next `make`.
+- The dmg opens with `HerdrBell.app` next to an `Applications` symlink:
+  drag the app onto it to install.
 
 ## 📖 Reading the icons
 
