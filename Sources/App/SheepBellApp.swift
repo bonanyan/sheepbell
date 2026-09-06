@@ -23,8 +23,10 @@ struct SheepBellApp: App {
     }
 
     var body: some Scene {
-        MenuBarExtra("SheepBell", systemImage: store.aggregateSymbol) {
+        MenuBarExtra {
             MenuView()
+        } label: {
+            MenuBarLabel(icon: store.aggregateIcon)
         }
         .menuBarExtraStyle(.window)
         .environment(store)

@@ -101,6 +101,10 @@ no main window. On first launch it asks for permission to send
 notifications. Flip on **Launch SheepBell at login** in Configure and it
 will be watching your agents from the first second of every session.
 
+> **Using a menu bar manager?** Tools like Ice or Bartender auto-hide new
+> menu bar items. If SheepBell's icon seems missing, reveal/unhide it in
+> your manager's settings — the app itself is running fine.
+
 ## 📖 Reading the icons
 
 ### Agent statuses (menu rows)
@@ -193,6 +197,47 @@ Sources/
 
 That's it — the Configure picker, the menu, and the menu bar aggregate all
 pick up the new scheme automatically.
+
+### Drawing custom status icons (artwork spec)
+
+The bundled **Custom** scheme ships as empty Illustrator-ready templates in
+`Sources/Resources/Artwork/`. Open one, draw inside the dashed safe area,
+delete the `guides-delete-me` layer, and export SVG
+(Styling = Presentation Attributes):
+
+| File | Used for | Canvas |
+|---|---|---|
+| `status-blocked.svg` | menu row + menu bar when blocked | 20×20 pt |
+| `status-working.svg` | menu row + menu bar when working | 20×20 pt |
+| `status-done.svg` | menu row + menu bar when done | 20×20 pt |
+| `status-idle.svg` | menu row when idle | 20×20 pt |
+| `status-unknown.svg` | menu row when unknown | 20×20 pt |
+| `aggregate-idle.svg` | menu bar when everything is idle | 18×18 pt |
+| `aggregate-disconnected.svg` | menu bar when no herdr session | 18×18 pt |
+| `marker-focused.svg` | focused-agent marker in menu rows | 12×12 pt |
+| `app-icon-master.svg` | app icon (export 1024×1024 PNG from it) | 1024×1024 px |
+
+Rules for the glyphs:
+
+- **Pure black on transparent** — they are macOS *template images*: the
+  system ignores color and tints them; per-status color comes from the scheme.
+- Keep artwork inside the safe-area guide; ~1.5–2 pt stroke weight; verify
+  legibility at 18 px.
+- The app icon master is the exception: **full color**, drawn inside the
+  rounded-rect silhouette guide, transparent outside.
+
+Then run:
+
+```sh
+Scripts/import_icons.sh
+```
+
+It strips the guide layer, skips any glyph that is still empty, and writes
+the finished art into `Assets.xcassets/StatusIcons/*.imageset` as
+vector-preserving template images. If a 1024×1024 `app-icon-master.png` is
+present it also re-slices the app icon
+(`Scripts/MakeIcon.swift --master <png>` does that alone). Until artwork is
+imported, the Custom scheme gracefully renders its SF Symbol fallbacks.
 
 ## 🧪 Tests
 

@@ -9,6 +9,7 @@ func registryHasUniqueIdsAndResolvesDefaults() {
     #expect(Set(ids).count == ids.count)
     #expect(IconSchemeRegistry.scheme(id: "does-not-exist").id == IconSchemeRegistry.default.id)
     #expect(IconSchemeRegistry.scheme(id: "classic").id == "classic")
+    #expect(IconSchemeRegistry.scheme(id: "custom").id == "custom")
 }
 
 @Test
@@ -16,16 +17,45 @@ func classicSchemeCoversEveryStatus() {
     let scheme = ClassicIconScheme()
     let statuses: [AgentStatus] = [.idle, .working, .blocked, .done, .unknown]
     for status in statuses {
-        #expect(!scheme.appearance(for: status).symbol.isEmpty)
+        guard case .systemSymbol(let name) = scheme.appearance(for: status).icon else {
+            Issue.record("classic scheme should use SF Symbols")
+            return
+        }
+        #expect(!name.isEmpty)
     }
-    #expect(scheme.aggregateSymbol(for: [.idle, .working, .blocked, .done])
-        == scheme.aggregateSymbol(for: [.blocked]))
-    #expect(scheme.aggregateSymbol(for: [.idle, .working, .done])
-        == scheme.aggregateSymbol(for: [.working]))
-    #expect(scheme.aggregateSymbol(for: [.idle, .done])
-        == scheme.aggregateSymbol(for: [.done]))
-    #expect(scheme.aggregateSymbol(for: [.idle, .unknown]) == scheme.idleAggregateSymbol)
-    #expect(scheme.aggregateSymbol(for: []) == scheme.idleAggregateSymbol)
+    #expect(scheme.aggregateIcon(for: [.idle, .working, .blocked, .done])
+        == scheme.aggregateIcon(for: [.blocked]))
+    #expect(scheme.aggregateIcon(for: [.idle, .working, .done])
+        == scheme.aggregateIcon(for: [.working]))
+    #expect(scheme.aggregateIcon(for: [.idle, .done])
+        == scheme.aggregateIcon(for: [.done]))
+    #expect(scheme.aggregateIcon(for: [.idle, .unknown]) == scheme.idleAggregateIcon)
+    #expect(scheme.aggregateIcon(for: []) == scheme.idleAggregateIcon)
+}
+
+@Test
+func customSchemeCoversEveryStatusWithFallbacks() {
+    let scheme = CustomIconScheme()
+    let expectedAssets: [AgentStatus: String] = [
+        .blocked: "status-blocked",
+        .working: "status-working",
+        .done: "status-done",
+        .idle: "status-idle",
+        .unknown: "status-unknown",
+    ]
+    for (status, assetName) in expectedAssets {
+        guard case .asset(let name, let fallback) = scheme.appearance(for: status).icon else {
+            Issue.record("custom scheme should use assets for \(status)")
+            return
+        }
+        #expect(name == assetName)
+        #expect(!fallback.isEmpty)
+    }
+    #expect(scheme.aggregateIcon(for: [.blocked]) == scheme.appearance(for: .blocked).icon)
+    #expect(scheme.aggregateIcon(for: [.working]) == scheme.appearance(for: .working).icon)
+    #expect(scheme.aggregateIcon(for: [.done]) == scheme.appearance(for: .done).icon)
+    #expect(scheme.aggregateIcon(for: [.idle]) == scheme.idleAggregateIcon)
+    #expect(scheme.emptyStateIcon == scheme.disconnectedIcon)
 }
 
 @Test

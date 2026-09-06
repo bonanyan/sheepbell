@@ -1,7 +1,17 @@
 import SwiftUI
 
+/// Where a status icon's artwork comes from.
+enum StatusIcon: Sendable, Equatable {
+    /// An SF Symbol name.
+    case systemSymbol(String)
+
+    /// An imageset in the asset catalog (template-rendered). Falls back to
+    /// the given SF Symbol while the artwork is missing.
+    case asset(name: String, fallback: String)
+}
+
 struct StatusAppearance: Sendable, Equatable {
-    let symbol: String
+    let icon: StatusIcon
     let color: Color
 }
 
@@ -10,6 +20,9 @@ struct StatusAppearance: Sendable, Equatable {
 /// To add a new icon set:
 /// 1. Create a struct conforming to `IconScheme`.
 /// 2. Append it to `IconSchemeRegistry.all`.
+/// 3. If it uses custom artwork, drop the imagesets into
+///    `Sources/Resources/Assets.xcassets/StatusIcons/` (see README for the
+///    artwork spec); until then the scheme renders its fallback symbols.
 /// Nothing else needs to change — the menu, menu bar aggregate icon,
 /// and the Configure picker pick it up automatically.
 protocol IconScheme: Sendable {
@@ -22,19 +35,19 @@ protocol IconScheme: Sendable {
     /// Menu row icon and tint for a single agent status.
     func appearance(for status: AgentStatus) -> StatusAppearance
 
-    /// Menu bar symbol summarizing all agents across connected sessions.
+    /// Menu bar icon summarizing all agents across connected sessions.
     /// Default priority: blocked > working > done > idle.
-    func aggregateSymbol(for statuses: some Sequence<AgentStatus>) -> String
+    func aggregateIcon(for statuses: some Sequence<AgentStatus>) -> StatusIcon
 
-    /// Menu bar symbol shown when everything is idle (after the settle debounce).
-    var idleAggregateSymbol: String { get }
+    /// Menu bar icon shown when everything is idle (after the settle debounce).
+    var idleAggregateIcon: StatusIcon { get }
 
-    /// Menu bar symbol shown when no herdr session is connected.
-    var disconnectedSymbol: String { get }
+    /// Menu bar icon shown when no herdr session is connected.
+    var disconnectedIcon: StatusIcon { get }
 
     /// Menu row accessory marking the focused agent.
-    var focusedAgentSymbol: String { get }
+    var focusedMarkerIcon: StatusIcon { get }
 
     /// Icon for the menu's empty/offline state row.
-    var emptyStateSymbol: String { get }
+    var emptyStateIcon: StatusIcon { get }
 }

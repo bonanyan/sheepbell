@@ -13,7 +13,7 @@ final class HerdrStore {
     }
 
     private(set) var sessions: [SessionView] = []
-    private(set) var aggregateSymbol: String
+    private(set) var aggregateIcon: StatusIcon
     private(set) var scheme: any IconScheme
 
     @ObservationIgnored private var clients: [String: HerdrSessionClient] = [:]
@@ -29,7 +29,7 @@ final class HerdrStore {
         let schemeID = UserDefaults.standard.string(forKey: SettingsKeys.iconSchemeID) ?? IconSchemeRegistry.default.id
         let scheme = IconSchemeRegistry.scheme(id: schemeID)
         self.scheme = scheme
-        self.aggregateSymbol = scheme.disconnectedSymbol
+        self.aggregateIcon = scheme.disconnectedIcon
     }
 
     var visibleSessions: [SessionView] {
@@ -40,23 +40,23 @@ final class HerdrStore {
         !visibleSessions.isEmpty
     }
 
-    private var rawAggregateSymbol: String {
-        if visibleSessions.isEmpty { return scheme.disconnectedSymbol }
+    private var rawAggregateIcon: StatusIcon {
+        if visibleSessions.isEmpty { return scheme.disconnectedIcon }
         let statuses = visibleSessions.flatMap { $0.agents.map(\.status) }
-        return scheme.aggregateSymbol(for: statuses)
+        return scheme.aggregateIcon(for: statuses)
     }
 
     private func refreshAggregateSymbol() {
-        let raw = rawAggregateSymbol
-        if raw == aggregateSymbol {
+        let raw = rawAggregateIcon
+        if raw == aggregateIcon {
             idleSettleTask?.cancel()
             idleSettleTask = nil
             return
         }
-        if raw != scheme.idleAggregateSymbol {
+        if raw != scheme.idleAggregateIcon {
             idleSettleTask?.cancel()
             idleSettleTask = nil
-            aggregateSymbol = raw
+            aggregateIcon = raw
             return
         }
         guard idleSettleTask == nil else { return }
@@ -69,8 +69,8 @@ final class HerdrStore {
 
     private func settleToIdleIfStillIdle() {
         idleSettleTask = nil
-        if rawAggregateSymbol == scheme.idleAggregateSymbol {
-            aggregateSymbol = scheme.idleAggregateSymbol
+        if rawAggregateIcon == scheme.idleAggregateIcon {
+            aggregateIcon = scheme.idleAggregateIcon
         }
     }
 
@@ -117,7 +117,7 @@ final class HerdrStore {
         sessions.removeAll()
         idleSettleTask?.cancel()
         idleSettleTask = nil
-        aggregateSymbol = scheme.disconnectedSymbol
+        aggregateIcon = scheme.disconnectedIcon
     }
 
     /// Live-switches the icon scheme when the Configure window changes it.
@@ -140,7 +140,7 @@ final class HerdrStore {
         scheme = IconSchemeRegistry.scheme(id: schemeID)
         idleSettleTask?.cancel()
         idleSettleTask = nil
-        aggregateSymbol = rawAggregateSymbol
+        aggregateIcon = rawAggregateIcon
     }
 
     func focus(_ agent: AgentItem, in sessionName: String) {

@@ -50,7 +50,7 @@ struct MenuView: View {
     @ViewBuilder
     private var emptyState: some View {
         HStack(spacing: 8) {
-            Image(systemName: store.scheme.emptyStateSymbol)
+            StatusIconView(icon: store.scheme.emptyStateIcon, assetSize: 16)
                 .foregroundStyle(.secondary)
             Text(store.sessions.isEmpty ? l10n.string("menu.noSessions") : l10n.string("menu.connecting"))
                 .foregroundStyle(.secondary)
@@ -80,7 +80,7 @@ struct MenuView: View {
                 } label: {
                     HStack(spacing: 8) {
                         let appearance = store.scheme.appearance(for: agent.status)
-                        Image(systemName: appearance.symbol)
+                        StatusIconView(icon: appearance.icon, assetSize: 16)
                             .foregroundStyle(appearance.color)
                             .frame(width: 16)
                         VStack(alignment: .leading, spacing: 0) {
@@ -93,7 +93,7 @@ struct MenuView: View {
                         }
                         Spacer()
                         if agent.focused {
-                            Image(systemName: store.scheme.focusedAgentSymbol)
+                            StatusIconView(icon: store.scheme.focusedMarkerIcon, assetSize: 10)
                                 .font(.caption)
                                 .foregroundStyle(.tertiary)
                         }

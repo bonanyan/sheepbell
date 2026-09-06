@@ -4,6 +4,7 @@ enum IconSchemeRegistry {
     /// All available icon schemes, in Configure-picker order.
     static let all: [any IconScheme] = [
         ClassicIconScheme(),
+        CustomIconScheme(),
     ]
 
     static var `default`: any IconScheme { all[0] }

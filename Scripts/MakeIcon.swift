@@ -55,6 +55,21 @@ func renderIcon(pixelSize: CGFloat) -> NSImage {
     return image
 }
 
+func renderFromMaster(_ master: NSImage, pixelSize: CGFloat) -> NSImage {
+    let size = NSSize(width: pixelSize, height: pixelSize)
+    let image = NSImage(size: size)
+    image.lockFocus()
+    NSGraphicsContext.current?.imageInterpolation = .high
+    master.draw(
+        in: CGRect(origin: .zero, size: size),
+        from: .zero,
+        operation: .sourceOver,
+        fraction: 1
+    )
+    image.unlockFocus()
+    return image
+}
+
 func savePNG(_ image: NSImage, to url: URL) {
     guard let tiff = image.tiffRepresentation,
           let rep = NSBitmapImageRep(data: tiff),
@@ -65,15 +80,41 @@ func savePNG(_ image: NSImage, to url: URL) {
     try? png.write(to: url)
 }
 
-let outputDir = URL(fileURLWithPath: CommandLine.arguments.count > 1
-    ? CommandLine.arguments[1]
-    : "Sources/Resources/Assets.xcassets/AppIcon.appiconset")
-try? FileManager.default.createDirectory(at: outputDir, withIntermediateDirectories: true)
+var masterPath: String?
+var outputDir = "Sources/Resources/Assets.xcassets/AppIcon.appiconset"
+var args = Array(CommandLine.arguments.dropFirst())
+var index = 0
+while index < args.count {
+    switch args[index] {
+    case "--master":
+        index += 1
+        if index < args.count { masterPath = args[index] }
+    case "--out":
+        index += 1
+        if index < args.count { outputDir = args[index] }
+    default:
+        outputDir = args[index]
+    }
+    index += 1
+}
+
+let outURL = URL(fileURLWithPath: outputDir)
+try? FileManager.default.createDirectory(at: outURL, withIntermediateDirectories: true)
+
+var master: NSImage?
+if let masterPath {
+    guard let loaded = NSImage(contentsOfFile: masterPath) else {
+        fatalError("cannot load master image at \(masterPath)")
+    }
+    master = loaded
+    print("slicing master image: \(masterPath)")
+}
 
 let sizes: [CGFloat] = [16, 32, 64, 128, 256, 512, 1024]
 for size in sizes {
-    let image = renderIcon(pixelSize: size)
-    let url = outputDir.appendingPathComponent("icon_\(Int(size)).png")
+    let image = master.map { renderFromMaster($0, pixelSize: size) }
+        ?? renderIcon(pixelSize: size)
+    let url = outURL.appendingPathComponent("icon_\(Int(size)).png")
     savePNG(image, to: url)
     print("wrote \(url.path)")
 }
@@ -98,5 +139,5 @@ let contents = """
   }
 }
 """
-try contents.write(to: outputDir.appendingPathComponent("Contents.json"), atomically: true, encoding: .utf8)
+try contents.write(to: outURL.appendingPathComponent("Contents.json"), atomically: true, encoding: .utf8)
 print("wrote Contents.json")
