@@ -112,10 +112,11 @@ struct MenuView: View {
                     dismiss()
                 } label: {
                     HStack(spacing: 8) {
-                        let appearance = store.scheme.appearance(for: agent.status)
-                        StatusIconView(icon: appearance.icon, assetSize: 16)
-                            .foregroundStyle(appearance.color)
-                            .frame(width: 16)
+                        StabilizedStatusIcon(
+                            status: agent.status,
+                            scheme: store.scheme,
+                            settleDelay: store.idleSettleDelay
+                        )
                         VStack(alignment: .leading, spacing: 0) {
                             Text(verbatim: agent.agent)
                                 .lineLimit(1)

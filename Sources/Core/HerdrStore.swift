@@ -20,7 +20,7 @@ final class HerdrStore {
     @ObservationIgnored private let discovery = SessionDiscovery()
     @ObservationIgnored private let notifier = Notifier()
     @ObservationIgnored private var started = false
-    @ObservationIgnored private let idleSettleDelay: TimeInterval
+    @ObservationIgnored let idleSettleDelay: TimeInterval
     @ObservationIgnored private var idleSettleTask: Task<Void, Never>?
     @ObservationIgnored private var defaultsObserver: (any NSObjectProtocol)?
 
