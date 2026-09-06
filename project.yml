@@ -1,6 +1,7 @@
 name: SheepBell
 options:
   bundleIdPrefix: dev.sheepbell
+  developmentLanguage: en
   deploymentTarget:
     macOS: "15.0"
 settings:
@@ -16,7 +17,7 @@ targets:
     info:
       path: Sources/Info.plist
       properties:
-        CFBundleShortVersionString: "0.2"
+        CFBundleShortVersionString: "0.3"
         CFBundleVersion: "1"
         CFBundleIconName: AppIcon
         LSMinimumSystemVersion: "15.0"
@@ -25,7 +26,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.sheepbell.SheepBell
-        MARKETING_VERSION: "0.2"
+        MARKETING_VERSION: "0.3"
         CURRENT_PROJECT_VERSION: "1"
         ENABLE_HARDENED_RUNTIME: YES
         CODE_SIGN_STYLE: Automatic

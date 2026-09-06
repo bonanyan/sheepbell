@@ -8,6 +8,8 @@ enum NotificationPolicy: Sendable {
     }
 }
 
+/// Posts macOS notifications. Callers pass already-localized title/body
+/// (localization happens on the main actor in `HerdrStore`).
 final class Notifier: @unchecked Sendable {
     private var center: UNUserNotificationCenter {
         UNUserNotificationCenter.current()
@@ -19,15 +21,12 @@ final class Notifier: @unchecked Sendable {
         _ = try? await center.requestAuthorization(options: [.alert, .sound])
     }
 
-    func postStatusChange(sessionName: String, agentName: String, title: String, status: AgentStatus) {
-        guard status == .blocked || status == .done else { return }
+    func post(title: String, body: String) {
         let enabled = UserDefaults.standard.object(forKey: SettingsKeys.notificationsEnabled) as? Bool ?? true
         guard enabled else { return }
         let content = UNMutableNotificationContent()
-        content.title = status == .blocked
-            ? "Agent blocked: \(agentName)"
-            : "Agent done: \(agentName)"
-        content.body = title.isEmpty ? "session \(sessionName)" : title
+        content.title = title
+        content.body = body
         content.sound = .default
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,

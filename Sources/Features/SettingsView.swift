@@ -1,13 +1,35 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(LocalizationManager.self) private var l10n
     @AppStorage(SettingsKeys.notificationsEnabled) private var notificationsEnabled = true
+    @AppStorage(SettingsKeys.iconSchemeID) private var iconSchemeID = IconSchemeRegistry.default.id
     @State private var launchAtLogin = LoginItem.isEnabled
 
     var body: some View {
         Form {
-            Toggle("Notify when an agent becomes blocked or done", isOn: $notificationsEnabled)
-            Toggle("Launch SheepBell at login", isOn: Binding(
+            Picker(l10n.string("settings.language"), selection: Binding(
+                get: { l10n.language },
+                set: { l10n.setLanguage($0) }
+            )) {
+                ForEach(AppLanguage.allCases) { language in
+                    Text(verbatim: language.nativeName).tag(language)
+                }
+            }
+            Text(l10n.string("settings.language.help"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Picker(l10n.string("settings.iconStyle"), selection: $iconSchemeID) {
+                ForEach(IconSchemeRegistry.all, id: \.id) { scheme in
+                    Text(l10n.string(scheme.displayNameKey)).tag(scheme.id)
+                }
+            }
+            Text(l10n.string("settings.iconStyle.help"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Toggle(l10n.string("settings.launchAtLogin"), isOn: Binding(
                 get: { launchAtLogin },
                 set: { newValue in
                     if LoginItem.setEnabled(newValue) {
@@ -17,12 +39,11 @@ struct SettingsView: View {
                     }
                 }
             ))
+
+            Toggle(l10n.string("settings.notifications"), isOn: $notificationsEnabled)
         }
         .formStyle(.grouped)
-        .frame(width: 380)
+        .frame(width: 420)
+        .padding(.vertical, 8)
     }
-}
-
-enum SettingsKeys {
-    static let notificationsEnabled = "notificationsEnabled"
 }

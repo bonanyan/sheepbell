@@ -2,6 +2,7 @@ import SwiftUI
 
 struct MenuView: View {
     @Environment(HerdrStore.self) private var store
+    @Environment(LocalizationManager.self) private var l10n
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -18,7 +19,7 @@ struct MenuView: View {
             Divider().padding(.vertical, 4)
 
             SettingsLink {
-                Label("Settings…", systemImage: "gear")
+                Label(l10n.string("menu.configure"), systemImage: "gear")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
                     .padding(.horizontal, 8)
@@ -29,7 +30,7 @@ struct MenuView: View {
             Button {
                 NSApplication.shared.terminate(nil)
             } label: {
-                Label("Quit SheepBell", systemImage: "power")
+                Label(l10n.string("menu.quit"), systemImage: "power")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
                     .padding(.horizontal, 8)
@@ -37,7 +38,7 @@ struct MenuView: View {
             }
             .buttonStyle(.plain)
 
-            Text("SheepBell v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?")")
+            Text(verbatim: "SheepBell v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?")")
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
                 .frame(maxWidth: .infinity)
@@ -49,9 +50,9 @@ struct MenuView: View {
     @ViewBuilder
     private var emptyState: some View {
         HStack(spacing: 8) {
-            Image(systemName: "circle.slash")
+            Image(systemName: store.scheme.emptyStateSymbol)
                 .foregroundStyle(.secondary)
-            Text(store.sessions.isEmpty ? "No herdr sessions found" : "Connecting…")
+            Text(store.sessions.isEmpty ? l10n.string("menu.noSessions") : l10n.string("menu.connecting"))
                 .foregroundStyle(.secondary)
         }
         .padding(.horizontal, 8)
@@ -59,14 +60,14 @@ struct MenuView: View {
 
     @ViewBuilder
     private func sessionSection(_ session: HerdrStore.SessionView) -> some View {
-        Text(session.name)
+        Text(verbatim: session.name)
             .font(.caption)
             .foregroundStyle(.secondary)
             .padding(.horizontal, 8)
             .padding(.top, 6)
 
         if session.agents.isEmpty {
-            Text("No agents")
+            Text(l10n.string("menu.noAgents"))
                 .font(.caption)
                 .foregroundStyle(.tertiary)
                 .padding(.horizontal, 8)
@@ -78,20 +79,21 @@ struct MenuView: View {
                     dismiss()
                 } label: {
                     HStack(spacing: 8) {
-                        Image(systemName: agent.status.symbol)
-                            .foregroundStyle(agent.status.color)
+                        let appearance = store.scheme.appearance(for: agent.status)
+                        Image(systemName: appearance.symbol)
+                            .foregroundStyle(appearance.color)
                             .frame(width: 16)
                         VStack(alignment: .leading, spacing: 0) {
-                            Text(agent.agent)
+                            Text(verbatim: agent.agent)
                                 .lineLimit(1)
-                            Text(agent.title)
+                            Text(verbatim: agent.title)
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                                 .lineLimit(1)
                         }
                         Spacer()
                         if agent.focused {
-                            Image(systemName: "cursorarrow.rays")
+                            Image(systemName: store.scheme.focusedAgentSymbol)
                                 .font(.caption)
                                 .foregroundStyle(.tertiary)
                         }

@@ -15,6 +15,8 @@ private func makeAgent(_ status: AgentStatus) -> AgentItem {
     )
 }
 
+private let scheme = ClassicIconScheme()
+
 @MainActor
 private func makeConnectedStore(settleDelay: TimeInterval) async -> HerdrStore {
     let store = HerdrStore(idleSettleDelay: settleDelay)
@@ -28,16 +30,16 @@ private func makeConnectedStore(settleDelay: TimeInterval) async -> HerdrStore {
 func aggregateIconIgnoresIdleBlipsWhileWorking() async throws {
     let store = await makeConnectedStore(settleDelay: 0.4)
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.working)]))
-    #expect(store.aggregateSymbol == "arrow.triangle.2.circlepath")
+    #expect(store.aggregateSymbol == scheme.aggregateSymbol(for: [AgentStatus.working]))
 
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.idle)]))
-    #expect(store.aggregateSymbol == "arrow.triangle.2.circlepath")
+    #expect(store.aggregateSymbol == scheme.aggregateSymbol(for: [AgentStatus.working]))
 
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.working)]))
-    #expect(store.aggregateSymbol == "arrow.triangle.2.circlepath")
+    #expect(store.aggregateSymbol == scheme.aggregateSymbol(for: [AgentStatus.working]))
 
     try await Task.sleep(for: .milliseconds(700))
-    #expect(store.aggregateSymbol == "arrow.triangle.2.circlepath")
+    #expect(store.aggregateSymbol == scheme.aggregateSymbol(for: [AgentStatus.working]))
 }
 
 @Test @MainActor
@@ -45,10 +47,10 @@ func aggregateIconSettlesToIdleAfterSustainedIdle() async throws {
     let store = await makeConnectedStore(settleDelay: 0.3)
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.working)]))
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.idle)]))
-    #expect(store.aggregateSymbol == "arrow.triangle.2.circlepath")
+    #expect(store.aggregateSymbol == scheme.aggregateSymbol(for: [AgentStatus.working]))
 
     try await Task.sleep(for: .milliseconds(600))
-    #expect(store.aggregateSymbol == HerdrStore.idleSymbol)
+    #expect(store.aggregateSymbol == scheme.idleAggregateSymbol)
 }
 
 @Test @MainActor
@@ -57,18 +59,18 @@ func aggregateIconShowsBlockedAndDoneImmediately() async throws {
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.working)]))
 
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.blocked)]))
-    #expect(store.aggregateSymbol == "exclamationmark.octagon.fill")
+    #expect(store.aggregateSymbol == scheme.aggregateSymbol(for: [AgentStatus.blocked]))
 
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.done)]))
-    #expect(store.aggregateSymbol == "checkmark.circle.fill")
+    #expect(store.aggregateSymbol == scheme.aggregateSymbol(for: [AgentStatus.done]))
 }
 
 @Test @MainActor
 func aggregateIconDisconnectIsImmediate() async throws {
     let store = await makeConnectedStore(settleDelay: 5)
     await store.handle(.agentsChanged(sessionName: "default", agents: [makeAgent(.working)]))
-    #expect(store.aggregateSymbol == "arrow.triangle.2.circlepath")
+    #expect(store.aggregateSymbol == scheme.aggregateSymbol(for: [AgentStatus.working]))
 
     await store.handle(.connectionChanged(sessionName: "default", connected: false))
-    #expect(store.aggregateSymbol == "circle.slash")
+    #expect(store.aggregateSymbol == scheme.disconnectedSymbol)
 }

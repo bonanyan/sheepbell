@@ -1,22 +1,22 @@
-// SheepBell v0.2
+// SheepBell v0.3
 import SwiftUI
 
 @main
 struct SheepBellApp: App {
     @State private var store: HerdrStore
+    @State private var localization = LocalizationManager.shared
 
     init() {
         let store = HerdrStore()
         _store = State(initialValue: store)
         store.start()
         if CommandLine.arguments.contains("--sheepbell-test-notification") {
-            Task {
+            Task { @MainActor in
                 try? await Task.sleep(for: .seconds(2))
-                Notifier().postStatusChange(
-                    sessionName: "default",
-                    agentName: "opencode",
-                    title: "Test notification from SheepBell",
-                    status: .blocked
+                let l10n = LocalizationManager.shared
+                Notifier().post(
+                    title: l10n.string("notification.blocked.title", "opencode"),
+                    body: l10n.string("notification.body.session", "default")
                 )
             }
         }
@@ -28,9 +28,11 @@ struct SheepBellApp: App {
         }
         .menuBarExtraStyle(.window)
         .environment(store)
+        .environment(localization)
 
         Settings {
             SettingsView()
+                .environment(localization)
         }
     }
 }

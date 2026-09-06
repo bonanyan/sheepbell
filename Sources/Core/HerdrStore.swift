@@ -13,7 +13,8 @@ final class HerdrStore {
     }
 
     private(set) var sessions: [SessionView] = []
-    private(set) var aggregateSymbol: String = "circle.slash"
+    private(set) var aggregateSymbol: String
+    private(set) var scheme: any IconScheme
 
     @ObservationIgnored private var clients: [String: HerdrSessionClient] = [:]
     @ObservationIgnored private let discovery = SessionDiscovery()
@@ -21,11 +22,14 @@ final class HerdrStore {
     @ObservationIgnored private var started = false
     @ObservationIgnored private let idleSettleDelay: TimeInterval
     @ObservationIgnored private var idleSettleTask: Task<Void, Never>?
-
-    static let idleSymbol = "circle.grid.2x2"
+    @ObservationIgnored private var defaultsObserver: (any NSObjectProtocol)?
 
     init(idleSettleDelay: TimeInterval = 5) {
         self.idleSettleDelay = idleSettleDelay
+        let schemeID = UserDefaults.standard.string(forKey: SettingsKeys.iconSchemeID) ?? IconSchemeRegistry.default.id
+        let scheme = IconSchemeRegistry.scheme(id: schemeID)
+        self.scheme = scheme
+        self.aggregateSymbol = scheme.disconnectedSymbol
     }
 
     var visibleSessions: [SessionView] {
@@ -37,12 +41,9 @@ final class HerdrStore {
     }
 
     private var rawAggregateSymbol: String {
-        if visibleSessions.isEmpty { return "circle.slash" }
+        if visibleSessions.isEmpty { return scheme.disconnectedSymbol }
         let statuses = visibleSessions.flatMap { $0.agents.map(\.status) }
-        if statuses.contains(.blocked) { return "exclamationmark.octagon.fill" }
-        if statuses.contains(.working) { return "arrow.triangle.2.circlepath" }
-        if statuses.contains(.done) { return "checkmark.circle.fill" }
-        return Self.idleSymbol
+        return scheme.aggregateSymbol(for: statuses)
     }
 
     private func refreshAggregateSymbol() {
@@ -52,7 +53,7 @@ final class HerdrStore {
             idleSettleTask = nil
             return
         }
-        if raw != Self.idleSymbol {
+        if raw != scheme.idleAggregateSymbol {
             idleSettleTask?.cancel()
             idleSettleTask = nil
             aggregateSymbol = raw
@@ -62,19 +63,20 @@ final class HerdrStore {
         idleSettleTask = Task { [weak self] in
             try? await Task.sleep(for: .seconds(self?.idleSettleDelay ?? 0))
             guard !Task.isCancelled else { return }
-            await self?.settleToIdleIfStillIdle()
+            self?.settleToIdleIfStillIdle()
         }
     }
 
     private func settleToIdleIfStillIdle() {
         idleSettleTask = nil
-        if rawAggregateSymbol == Self.idleSymbol {
-            aggregateSymbol = Self.idleSymbol
+        if rawAggregateSymbol == scheme.idleAggregateSymbol {
+            aggregateSymbol = scheme.idleAggregateSymbol
         }
     }
 
     func enableForTesting() {
         started = true
+        observeIconSchemeChanges()
     }
 
     func addSessionForTesting(name: String) {
@@ -86,6 +88,7 @@ final class HerdrStore {
     func start() {
         guard !started else { return }
         started = true
+        observeIconSchemeChanges()
         discovery.onChange = { [weak self] found in
             Task { @MainActor [weak self] in
                 await self?.syncClients(with: found)
@@ -102,6 +105,10 @@ final class HerdrStore {
     func stop() {
         guard started else { return }
         started = false
+        if let defaultsObserver {
+            NotificationCenter.default.removeObserver(defaultsObserver)
+            self.defaultsObserver = nil
+        }
         discovery.stop()
         for client in clients.values {
             Task { await client.stop() }
@@ -110,7 +117,30 @@ final class HerdrStore {
         sessions.removeAll()
         idleSettleTask?.cancel()
         idleSettleTask = nil
-        aggregateSymbol = "circle.slash"
+        aggregateSymbol = scheme.disconnectedSymbol
+    }
+
+    /// Live-switches the icon scheme when the Configure window changes it.
+    private func observeIconSchemeChanges() {
+        guard defaultsObserver == nil else { return }
+        defaultsObserver = NotificationCenter.default.addObserver(
+            forName: UserDefaults.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.syncSchemeWithDefaults()
+            }
+        }
+    }
+
+    private func syncSchemeWithDefaults() {
+        let schemeID = UserDefaults.standard.string(forKey: SettingsKeys.iconSchemeID) ?? IconSchemeRegistry.default.id
+        guard scheme.id != schemeID else { return }
+        scheme = IconSchemeRegistry.scheme(id: schemeID)
+        idleSettleTask?.cancel()
+        idleSettleTask = nil
+        aggregateSymbol = rawAggregateSymbol
     }
 
     func focus(_ agent: AgentItem, in sessionName: String) {
@@ -160,11 +190,14 @@ final class HerdrStore {
             guard let session = sessions.first(where: { $0.name == name }),
                   let agent = session.agents.first(where: { $0.paneId == paneId })
             else { break }
-            notifier.postStatusChange(
-                sessionName: name,
-                agentName: agent.agent,
-                title: agent.title,
-                status: to
+            let l10n = LocalizationManager.shared
+            let titleKey = to == .blocked ? "notification.blocked.title" : "notification.done.title"
+            let body = agent.title.isEmpty
+                ? l10n.string("notification.body.session", name)
+                : agent.title
+            notifier.post(
+                title: l10n.string(titleKey, agent.agent),
+                body: body
             )
         }
     }

@@ -1,0 +1,201 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "icon.scheme.classic" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Klassisch" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Classic" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Classique" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "क्लासिक" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "クラシック" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "클래식" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cổ điển" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "经典" } }
+      }
+    },
+    "menu.configure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Konfigurieren…" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Configure…" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Configurer…" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "कॉन्फ़िगर करें…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "設定…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "설정…" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Cấu hình…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设置…" } }
+      }
+    },
+    "menu.connecting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Verbinden…" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Connecting…" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Connexion…" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "कनेक्ट हो रहा है…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "接続中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "연결 중…" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Đang kết nối…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在连接…" } }
+      }
+    },
+    "menu.noAgents" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine Agenten" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No agents" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun agent" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "कोई एजेंट नहीं" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "エージェントなし" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "에이전트 없음" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Không có agent" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有代理" } }
+      }
+    },
+    "menu.noSessions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Keine herdr-Sitzungen gefunden" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No herdr sessions found" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucune session herdr trouvée" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "कोई herdr सत्र नहीं मिला" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "herdr セッションが見つかりません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "herdr 세션을 찾을 수 없습니다" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Không tìm thấy phiên herdr" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未找到 herdr 会话" } }
+      }
+    },
+    "menu.quit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "SheepBell beenden" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Quit SheepBell" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Quitter SheepBell" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "SheepBell बंद करें" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "SheepBell を終了" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "SheepBell 종료" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thoát SheepBell" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "退出 SheepBell" } }
+      }
+    },
+    "notification.blocked.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Agent blockiert: %@" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Agent blocked: %@" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Agent bloqué : %@" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "एजेंट अवरुद्ध: %@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "エージェントがブロック中：%@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "에이전트 차단됨: %@" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Agent bị chặn: %@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "代理被阻塞：%@" } }
+      }
+    },
+    "notification.body.session" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sitzung %@" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "session %@" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "session %@" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "सत्र %@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "セッション %@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "세션 %@" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "phiên %@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "会话 %@" } }
+      }
+    },
+    "notification.done.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Agent fertig: %@" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Agent done: %@" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Agent terminé : %@" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "एजेंट पूर्ण: %@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "エージェントが完了：%@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "에이전트 완료: %@" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Agent đã hoàn tất: %@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "代理已完成：%@" } }
+      }
+    },
+    "settings.iconStyle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Symbolstil" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Icon style" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Style d'icônes" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "आइकन शैली" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アイコンスタイル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "아이콘 스타일" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Kiểu biểu tượng" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "图标样式" } }
+      }
+    },
+    "settings.iconStyle.help" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wählen Sie den Symbolsatz für Agentenstatus und das Symbol in der Menüleiste." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose the icon set used for agent statuses and the menu bar symbol." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Choisissez le jeu d'icônes utilisé pour les états des agents et le symbole de la barre des menus." } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "एजेंट स्थितियों और मेनू बार प्रतीक के लिए आइकन सेट चुनें।" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "エージェントの状態とメニューバーのシンボルに使うアイコンセットを選択します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "에이전트 상태와 메뉴 막대 기호에 사용할 아이콘 세트를 선택하세요." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Chọn bộ biểu tượng dùng cho trạng thái agent và biểu tượng trên thanh menu." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择用于代理状态和菜单栏图标的图标集。" } }
+      }
+    },
+    "settings.language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sprache" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Language" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Langue" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "भाषा" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "言語" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "언어" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Ngôn ngữ" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "语言" } }
+      }
+    },
+    "settings.language.help" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wählen Sie die Anzeigesprache für Menüs, Einstellungen und Mitteilungen. Wird sofort übernommen." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose the display language for menus, settings, and notifications. Applies immediately." } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Choisissez la langue d'affichage des menus, des réglages et des notifications. S'applique immédiatement." } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "मेन्यू, सेटिंग्स और सूचनाओं के लिए प्रदर्शन भाषा चुनें। तुरंत लागू होती है।" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "メニュー・設定・通知の表示言語を選択します。すぐに反映されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "메뉴, 설정, 알림에 사용할 표시 언어를 선택하세요. 즉시 적용됩니다." } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Chọn ngôn ngữ hiển thị cho menu, cài đặt và thông báo. Áp dụng ngay lập tức." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择菜单、设置和通知的显示语言，立即生效。" } }
+      }
+    },
+    "settings.launchAtLogin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "SheepBell bei der Anmeldung starten" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Launch SheepBell at login" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Lancer SheepBell à la connexion" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "लॉगइन पर SheepBell चालू करें" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ログイン時に SheepBell を起動する" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "로그인할 때 SheepBell 실행" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Khởi chạy SheepBell khi đăng nhập" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "登录时启动 SheepBell" } }
+      }
+    },
+    "settings.notifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mitteilung senden, wenn ein Agent blockiert oder fertig ist" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Notify when an agent becomes blocked or done" } },
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Notifier lorsqu'un agent est bloqué ou terminé" } },
+        "hi" : { "stringUnit" : { "state" : "translated", "value" : "जब कोई एजेंट अवरुद्ध या पूर्ण हो तो सूचित करें" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "エージェントがブロックまたは完了したときに通知する" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "에이전트가 차단되거나 완료되면 알림 보내기" } },
+        "vi" : { "stringUnit" : { "state" : "translated", "value" : "Thông báo khi agent bị chặn hoặc hoàn tất" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "当代理被阻塞或完成时发送通知" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}
