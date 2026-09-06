@@ -14,9 +14,12 @@ struct HerdrBellApp: App {
             Task { @MainActor in
                 try? await Task.sleep(for: .seconds(2))
                 let l10n = LocalizationManager.shared
+                let appearance = IconSchemeRegistry.current.appearance(for: .blocked)
                 Notifier().post(
                     title: l10n.string("notification.blocked.title", "opencode"),
-                    body: l10n.string("notification.body.session", "default")
+                    body: l10n.string("notification.body.session", "default"),
+                    icon: appearance.icon,
+                    tint: appearance.color
                 )
             }
         }

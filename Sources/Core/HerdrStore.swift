@@ -195,9 +195,12 @@ final class HerdrStore {
             let body = agent.title.isEmpty
                 ? l10n.string("notification.body.session", name)
                 : agent.title
+            let appearance = scheme.appearance(for: to)
             notifier.post(
                 title: l10n.string(titleKey, agent.agent),
-                body: body
+                body: body,
+                icon: appearance.icon,
+                tint: appearance.color
             )
         }
     }

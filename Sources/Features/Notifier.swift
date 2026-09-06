@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import UserNotifications
 
 enum NotificationPolicy: Sendable {
@@ -21,13 +22,18 @@ final class Notifier: @unchecked Sendable {
         _ = try? await center.requestAuthorization(options: [.alert, .sound])
     }
 
-    func post(title: String, body: String) {
+    func post(title: String, body: String, icon: StatusIcon? = nil, tint: Color? = nil) {
         let enabled = UserDefaults.standard.object(forKey: SettingsKeys.notificationsEnabled) as? Bool ?? true
         guard enabled else { return }
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = .default
+        if let icon, let tint,
+           let url = StatusIconImage.pngFileURL(for: icon, tint: tint),
+           let attachment = try? UNNotificationAttachment(identifier: "status-icon", url: url, options: nil) {
+            content.attachments = [attachment]
+        }
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
             content: content,

@@ -9,6 +9,11 @@ enum IconSchemeRegistry {
 
     static var `default`: any IconScheme { all[0] }
 
+    /// The scheme currently selected in Configure.
+    static var current: any IconScheme {
+        scheme(id: UserDefaults.standard.string(forKey: SettingsKeys.iconSchemeID) ?? `default`.id)
+    }
+
     static func scheme(id: String) -> any IconScheme {
         all.first { $0.id == id } ?? `default`
     }
